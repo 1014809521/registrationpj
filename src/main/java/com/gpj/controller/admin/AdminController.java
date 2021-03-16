@@ -11,4 +11,5 @@ public class AdminController {
         //读取医生的信息
         return "index";
     }
+    //医生管理
 }
