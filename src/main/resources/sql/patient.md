@@ -34,3 +34,15 @@ condition
     @if(!isEmpty(userId)){
      and user_id=#userId#
     @}
+    
+selectList
+===
+    SELECT
+         #page("p.*,d.name as doctorName")#
+    FROM
+        patient p
+    LEFT JOIN registration a ON p.registration_id = a.id
+    LEFT JOIN doctor d ON a.doctor_id = d.id where 1=1
+        @if(!isEmpty(name)){
+             and p.name=#name#
+        @}

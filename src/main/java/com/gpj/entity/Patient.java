@@ -1,4 +1,5 @@
 package com.gpj.entity;
+import lombok.Data;
 import org.beetl.sql.core.annotatoin.Table;
 
 
@@ -6,6 +7,7 @@ import org.beetl.sql.core.annotatoin.Table;
 * 
 * gen by beetlsql 2021-03-08
 */
+@Data
 @Table(name="graduation.patient")
 public class Patient   {
 	
@@ -41,7 +43,9 @@ public class Patient   {
 	姓名
 	*/
 	private String name ;
-	
+	//主治医师
+	private String doctorName;
+
 	public Patient() {
 	}
 	

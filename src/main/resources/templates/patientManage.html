@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>病人管理界面</title>
+    <link rel="stylesheet" href="../static/css/layui.min.css">
+
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class = "layui-header">
+        <div class="layui-logo"><span>欢迎</span></div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <a herf = "javascript:">系统管理</a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/admin/doctorManage" >医生管理</a></dd>
+                    <dd><a href="/admin/patientManage" >病人管理</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="...">
+            <h1 align="center" style="color: deepskyblue">病人管理</h1>
+
+            <form action="/admin/patientManage" method="get">
+                <table>
+                    <tr>
+                        <td style="color: yellowgreen">昵称:</td>
+                        <td><input name="name" autocomplete="off" value="" class="layui-input lay-size=sm" ></td>
+                        <td>   <button class="layui-btn" type="submit"><i class="layui-icon">&#xe615;</i></button></td>
+                    </tr>
+                </table>
+            </form>
+            <table class="layui-table">
+                <colgroup>
+                    <col width="100">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>昵称</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                    <th>主治医生</th>
+                    <th>操作&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button class="layui-btn" onclick="showAdd('/admin/patientForm')"><i class="layui-icon">&#xe608;</i> 添加</button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                        <tr th:each = " u: ${page.getList()}")>
+                            <td th:text = "${u.id}"></td>
+                            <td th:text = "${u.name}"></td>
+                            <td th:text = "${u.age}"></td>
+                            <td th:text = "${u.sex == 1?'男':'女'}"></td>
+                            <td th:text = "${u.doctorName}"></td>
+                            <td>
+                                <button class="layui-btn"
+                                        th:onclick="'javascript:edit('+${u.id}+')' "><i class="layui-icon">&#xe642;</i></button>
+                                <button class="layui-btn"  th:onclick="'javascript:del('+${u.id}+')' "><i class="layui-icon">&#xe640;</i></button>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <div id="pagination"></div>
+        </div>
+    </div>
+</div>
+<script src="../static/js/layui.all.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    function showAdd(location) {
+        window.location.href = location
+    }
+    function del(id) {
+            console.log(id);
+            $.ajax({
+                url:'/admin/patientDelete/?id='+id,
+                type:'post',
+                success:function (data) {
+                    layer.alert(data.msg);
+                    parent.location.reload();
+
+                },
+                error:function (data) {
+                    layer.msg(data.msg,{
+                        time:2000,
+                    });
+
+                }
+                }
+
+            )
+
+    }
+    function edit(location) {
+
+        // window.location.href = 'admin/modify/'+location
+
+        window.location.href = 'patientModify/?id='+location
+    }
+    var PageNum = [[${pageNum}]];
+    var count1 = [[${page.totalRow}]];
+    layui.use('laypage', function(){
+
+        let layPage = layui.laypage;
+
+
+        //执行一个laypage实例
+        layPage.render({
+            elem: 'pagination' //注意，这里的 test1 是 ID，不用加 # 号
+            // 数据总数，从服务端得到
+            ,count:count1
+            ,limit:5
+            ,curr:PageNum
+            ,jump: function(obj, first){
+            //obj包含了当前分页的所有参数，比如：
+            //首次不执行
+            if(!first){
+                window.location.href = "/admin/patientManage?pageNum="+obj.curr+"&pageSize=" +obj.limit;
+            }
+        }
+
+        //设置每页显示记录数
+        });
+    });
+</script>
+
+</body>
+</html>

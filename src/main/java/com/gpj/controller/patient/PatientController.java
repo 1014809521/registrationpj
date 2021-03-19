@@ -1,9 +1,13 @@
 package com.gpj.controller.patient;
 
-import com.gpj.dao.DoctorDao;
-import com.gpj.entity.Doctor;
-import com.gpj.service.DoctorService;
+import com.gpj.dao.PatientDao;
+import com.gpj.entity.Patient;
+import com.gpj.entity.Patient;
+import com.gpj.entity.Patient;
+import com.gpj.result.ResponseResult;
+import com.gpj.service.PatientService;
 import org.beetl.sql.core.SQLManager;
+import org.beetl.sql.core.engine.PageQuery;
 import org.beetl.sql.core.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -18,29 +23,58 @@ import java.util.List;
 @RequestMapping("/admin")
 public class PatientController {
     @Autowired
-    private DoctorService doctorService;
+    private PatientService patientService;
     @Autowired
-    private DoctorDao doctorDao;
+    private PatientDao patientDao;
     @Autowired
     private SQLManager sqlManager;
-    @RequestMapping("/doctorManage")
-    public String doctorManage(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
+    @RequestMapping("/patientManage")
+    public String patientManage(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                @RequestParam(required = false, defaultValue = "5") Integer pageSize,
                                @RequestParam(required = false)String name,
                                Model model){
         //查询医生数据
-        Query<Doctor> query = sqlManager.query((Doctor.class));
-        List<Doctor> findall = query.select();
-        List<Doctor> page = doctorService.findDoctorList(pageNum,pageSize,name);
-        if(!StringUtils.isEmpty(name)){
-            findall = query.andLike("name",'%'+name+'%').select();
-            model.addAttribute("count1",findall.size());
-            model.addAttribute("page",findall);
-            model.addAttribute("pageNum",pageNum);
-        }
-        else{
-            model.addAttribute("count1",findall.size());
+
+        PageQuery<Patient> page = patientService.findPatientList(pageNum,pageSize,name);
             model.addAttribute("page",page);
-            model.addAttribute("pageNum",pageNum);}
-        return "doctorManage";
-    }}
+            model.addAttribute("pageNum",pageNum);
+            model.addAttribute("name",name);
+        return "patientManage";
+    }
+    @RequestMapping("/patientForm")
+    public String patientForm(){
+        return "patientForm";
+    }
+    @ResponseBody
+    @RequestMapping("/patientDelete")
+    public ResponseResult delete(Integer id){
+        int rows = patientService.deletePatient(id);
+        ResponseResult result = new ResponseResult();
+        if (rows>0){
+            result.setCode("400");
+            result.setMsg("删除成功");
+        }
+        else {
+            result.setCode("401");
+            result.setMsg("删除失败");
+        }
+        return result;
+    }
+    @RequestMapping("/patientSave")
+    public String save(Patient patient){
+        patientService.savePatient(patient);
+        return "redirect:patientManage";
+
+    }
+
+    @RequestMapping("/patientModify")
+    public String test(@RequestParam("id") long id,Model model){
+        model.addAttribute("patient",patientDao.single(id));
+        return "patientForm1";
+    }
+    @RequestMapping("/patientEdit")
+    public String edit(Patient patient){
+        patientService.editPatient(patient);
+        return "redirect:patientManage";
+    }
+}

@@ -43,6 +43,7 @@ public class Doctor   {
 	简介
 	*/
 	private String text ;
+
 	
 	public Doctor() {
 	}
