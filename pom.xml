@@ -15,9 +15,14 @@
     <description>hospital-project project for Spring Boot</description>
 
     <properties>
-        <java.version>1.8</java.version>
-        <mysql.driver.verion>8.0.19</mysql.driver.verion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>14</java.version>
+        <maven.compiler.source>14</maven.compiler.source>
+        <maven.compiler.target>14</maven.compiler.target>
+        <encoding>UTF-8</encoding>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -37,7 +42,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.driver.verion}</version>
             <scope>runtime</scope>
         </dependency>
          <dependency>
@@ -48,6 +52,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>3.0.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.trigersoft</groupId>
+            <artifactId>jaque</artifactId>
+            <version>2.1.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -25,11 +25,12 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="...">
-            <h5>医生管理</h5>
-            <form action="${ctxPath}/admin/doctor/manage" method="get">
+            <h1 align="center" style="color: deepskyblue">医生管理</h1>
+
+            <form action="/admin/doctorManage" method="get">
                 <table>
                     <tr>
-                        <td>昵称:</td>
+                        <td style="color: yellowgreen">昵称:</td>
                         <td><input name="name" autocomplete="off" value="" class="layui-input lay-size=sm" ></td>
                         <td>   <button class="layui-btn" type="submit"><i class="layui-icon">&#xe615;</i></button></td>
                     </tr>
@@ -55,12 +56,12 @@
                     <th>所属部门</th>
                     <th>信息</th>
                     <th>操作&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button class="layui-btn" onclick="showAdd('${ctxPath}/admin/doctor/')"><i class="layui-icon">&#xe608;</i> 添加</button>
+                        <button class="layui-btn" onclick="showAdd('/admin/doctorForm')"><i class="layui-icon">&#xe608;</i> 添加</button>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                        <tr th:each = " u: ${list}")>
+                        <tr th:each = " u: ${page}")>
                             <td th:text = "${u.id}"></td>
                             <td th:text = "${u.name}"></td>
                             <td th:text = "${u.age}"></td>
@@ -68,8 +69,9 @@
                             <td th:text = "${u.department}"></td>
                             <td th:text = "${u.text}"></td>
                             <td>
-                                <button class="layui-btn" onclick="edit('${ctxPath}/admin/doctor/',${doctor.id})"><i class="layui-icon">&#xe642;</i></button>
-                                <button class="layui-btn" onclick="del('${ctxPath}/admin/doctor/',${doctor.id})"><i class="layui-icon">&#xe640;</i></button>
+                                <button class="layui-btn"
+                                        th:onclick="'javascript:edit('+${u.id}+')' "><i class="layui-icon">&#xe642;</i></button>
+                                <button class="layui-btn"  th:onclick="'javascript:del('+${u.id}+')' "><i class="layui-icon">&#xe640;</i></button>
                             </td>
                         </tr>
                 </tbody>
@@ -79,5 +81,65 @@
     </div>
 </div>
 <script src="../static/js/layui.all.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    function showAdd(location) {
+        window.location.href = location
+
+    }
+    function del(id) {
+            console.log(id);
+            $.ajax({
+                url:'/admin/delete/?id='+id,
+                type:'post',
+                success:function (data) {
+                    layer.alert(data.msg);
+                    parent.location.reload();
+
+                },
+                error:function (data) {
+                    layer.msg(data.msg,{
+                        time:2000,
+                    });
+
+                }
+                }
+
+            )
+
+    }
+    function edit(location) {
+
+        // window.location.href = 'admin/modify/'+location
+
+        window.location.href = 'modify/?id='+location
+    }
+    var PageNum = [[${pageNum}]];
+    var count1 = [[${count1}]];
+    layui.use('laypage', function(){
+
+        let layPage = layui.laypage;
+
+
+        //执行一个laypage实例
+        layPage.render({
+            elem: 'pagination' //注意，这里的 test1 是 ID，不用加 # 号
+            // 数据总数，从服务端得到
+            ,count:count1
+            ,limit:5
+            ,curr:PageNum
+            ,jump: function(obj, first){
+            //obj包含了当前分页的所有参数，比如：
+            //首次不执行
+            if(!first){
+                window.location.href = "/admin/doctorManage?pageNum="+obj.curr+"&pageSize=" +obj.limit;
+            }
+        }
+
+        //设置每页显示记录数
+        });
+    });
+</script>
+
 </body>
 </html>
