@@ -44,5 +44,5 @@ selectList
     LEFT JOIN registration a ON p.registration_id = a.id
     LEFT JOIN doctor d ON a.doctor_id = d.id where 1=1
         @if(!isEmpty(name)){
-             and p.name=#name#
+             and p.name like #name#
         @}

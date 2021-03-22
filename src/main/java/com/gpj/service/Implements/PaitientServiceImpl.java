@@ -28,7 +28,7 @@ public class PaitientServiceImpl implements PatientService {
 
         PageQuery<Patient> query = new PageQuery(pageNum,pageSize);
         if(!StringUtils.isEmpty(name)){
-            query.setPara("name",name);
+            query.setPara("name",'%'+name+'%');
         }
 //        queryOfFindPage.setPageNumber(pageNum);//设置当前页码
 //        queryOfFindPage.setPageSize(pageSize);//设置查询数量

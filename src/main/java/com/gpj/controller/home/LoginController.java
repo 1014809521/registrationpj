@@ -21,10 +21,10 @@ public class LoginController {
     @Autowired
     private AuthorityService authorityService;
     //登录页面
-    @RequestMapping("/loginRegiterPage")
-    public String loginRegiterPage() {
+    @RequestMapping("/loginRegisterPage")
+    public String loginRegisterPage() {
 
-        return "loginregister";
+        return "loginRegister";
     }
     //请求登录
     @ResponseBody
@@ -41,6 +41,11 @@ public class LoginController {
     @RequestMapping("register")
     public ResponseResult register(@RequestBody ActiveResult activeResult){
         return authorityService.register(activeResult);
+    }
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/home/loginRegisterPage";
     }
 
 

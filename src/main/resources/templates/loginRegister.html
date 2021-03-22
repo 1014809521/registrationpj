@@ -15,7 +15,7 @@
   <h2>私人医院挂号系统</h2>
 <div class="container" id="container">
 	<div class="form-container sign-up-container">
-		<form action="/regist" id="regest" onsubmit="return regest()">
+		<form action="/register" id="register" onsubmit="return register()">
 			<h1>注册</h1>
 			<input type="username" name="username" placeholder="账号" />
 			<input type="password" name="password" placeholder="密码" />
@@ -28,8 +28,8 @@
 	<div class="form-container sign-in-container">
 		<form  id="login" onsubmit="return login()">
 			<h1>登录</h1>
-			<input type="username" name="username" placeholder="账号" value="admin1"/>
-			<input type="password"  name="password" placeholder="密码" value="123456"/>
+			<input type="username" name="username" placeholder="账号" />
+			<input type="password"  name="password" placeholder="密码" />
 			<div>
 				<button type="submit">登录</button><button type="reset">重置</button>
 			</div>
@@ -54,9 +54,9 @@
   <script src="../static/js/layui.all.js"></script>
   <script src="../static/js/jquery-3.3.1.min.js"></script>
   <script type="text/javascript">
-	  function regest(){
+	  function register(){
 		  var d = {};
-		  var t = $('#regest').serializeArray();
+		  var t = $('#register').serializeArray();
 		  $.each(t, function() {
 			  d[this.name] = this.value;
 		  });
@@ -70,7 +70,7 @@
 				  console.log(data.message);
 				  if(data.code=="200"){
 					  alert('注册成功！！！\n请返回登录页面进行登录或继续注册')
-					  location.href="/home/loginRegiterPage";
+					  location.href="/home/loginRegisterPage";
 				  }
 				  else {
 					  alert('注册失败！！！\n请返回登录页面进行登录或继续注册')

@@ -36,6 +36,7 @@ public class PatientController {
         //查询医生数据
 
         PageQuery<Patient> page = patientService.findPatientList(pageNum,pageSize,name);
+
             model.addAttribute("page",page);
             model.addAttribute("pageNum",pageNum);
             model.addAttribute("name",name);

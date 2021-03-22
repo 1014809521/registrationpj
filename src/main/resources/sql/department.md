@@ -25,3 +25,16 @@ condition
     @if(!isEmpty(type)){
      and type=#type#
     @}
+ 
+ 
+    
+selectList
+===
+    SELECT
+         #page("d.*")#
+    FROM
+        department d
+    Where 1=1
+        @if(!isEmpty(name)){
+             and d.name like #name#
+        @}
