@@ -21,7 +21,6 @@ public class PatientUserController {
     public String index(HttpSession session, Model model){
         //查询预约记录
         Authority authority = (Authority) session.getAttribute("authority");
-
         return "appointmentHistory";
     }
 }

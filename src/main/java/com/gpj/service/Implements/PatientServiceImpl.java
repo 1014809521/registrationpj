@@ -15,7 +15,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-public class PaitientServiceImpl implements PatientService {
+public class PatientServiceImpl implements PatientService {
     @Autowired
     private PatientDao patientDao;
     @Autowired

@@ -1,0 +1,72 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改页面</title>
+    <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <form class="layui-form"  th:action="@{/admin/registrationEdit}" method="post">
+            <input type="hidden" name="id" th:value="${registration.id}" >
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col>
+                </colgroup>
+                <tr>
+                    <td style="width: 100px">患者Id：</td>
+                    <td>
+                        <input type="text" name="patientId" th:value= '${registration.patientName}' required autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>医生Id：</td>
+                    <td>
+                        <input type="text" name="doctorId" th:value= '${registration.doctorName}' required  lay-verify="required"   autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>挂号时间：</td>
+                    <td>
+                        <input type="text" name="time" th:value= '${registration.time}' required autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>门诊费：</td>
+                    <td>
+                        <input type="text" name="expenses"th:value= '${registration.expenses}' required   lay-verify="required"  autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>状态：</td>
+                    <td>
+                        <input type="text" name="userId" th:value= '${registration.status}' required   lay-verify="required"  autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>操作：</td>
+                    <td>
+                        <input type="submit" class="layui-btn" value="提交"></input>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: red;" id="message"></span>
+                    </td>
+                </tr>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>

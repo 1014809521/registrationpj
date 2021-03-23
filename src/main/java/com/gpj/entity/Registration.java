@@ -2,13 +2,16 @@ package com.gpj.entity;
 import java.math.*;
 import java.util.Date;
 
+import lombok.Data;
 import org.beetl.sql.core.annotatoin.Table;
+import org.springframework.format.annotation.DateTimeFormat;
 
 
 /* 
 * 
 * gen by beetlsql 2021-03-08
 */
+@Data
 @Table(name="graduation.registration")
 public class Registration   {
 	
@@ -44,6 +47,23 @@ public class Registration   {
 	挂号时间
 	*/
 	private Date time ;
+
+
+
+	/*
+	患者名称
+	 */
+	private String patientName;
+
+	/*
+	医生名称
+	 */
+	private String doctorName;
+
+	/*
+	部门名称
+	 */
+	private String department;
 	
 	public Registration() {
 	}
