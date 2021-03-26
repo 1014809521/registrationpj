@@ -4,7 +4,9 @@ import com.gpj.dao.RegistrationDao;
 import com.gpj.entity.Patient;
 import com.gpj.entity.Registration;
 import com.gpj.result.PatientQueryResult;
+import com.gpj.result.ResponseResult;
 import com.gpj.service.RegistrationService;
+import org.apache.tomcat.jni.Global;
 import org.beetl.sql.core.engine.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         }
         if(!StringUtils.isEmpty(patientQueryResult.getDoctorName())){
             query.setPara("doctorName",patientQueryResult.getDoctorName());
+        }
+        if(patientQueryResult.getUserId()!=null){
+            query.setPara("userId",patientQueryResult.getUserId());
         }
 //        queryOfFindPage.setPageNumber(pageNum);//设置当前页码
 //        queryOfFindPage.setPageSize(pageSize);//设置查询数量
@@ -47,6 +52,15 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Override
     public int deleteRegistration(int id) {
         return registrationDao.deleteById(id);
+    }
+
+    @Override
+    public ResponseResult createRegistration(Registration registration) {
+        ResponseResult result = new ResponseResult();
+        registrationDao.insert(registration);
+        result.setCode("100");
+        result.setMsg("成功");
+        return result;
     }
 
 }

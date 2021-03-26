@@ -30,11 +30,7 @@ public class LoginController {
     @ResponseBody
     @RequestMapping("/login")
     public ResponseResult login(@RequestBody Authority authority, HttpSession session){
-        ResponseResult result = authorityService.check(authority);
-        if(result.getCode().equals("100")){
-            session.setAttribute("authority",authority);
-        }
-        return result;
+        return authorityService.check(authority,session);
     }
     //注册
     @ResponseBody

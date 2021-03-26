@@ -1,8 +1,10 @@
 <html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <title>${session.user.username} - 预约记录</title>
+        <title th:text="${session.authority.username}"> - 预约记录</title>
         <link rel="stylesheet" href="../static/css/layui.min.css">
         <link rel="stylesheet" href="../static/css/normalize.css" type="text/css"/>
         <link rel="stylesheet" href="../static/css/secondary.css" type="text/css"/>
@@ -36,8 +38,7 @@
             <!-- 内容主体区域 -->
             <hr style="magin-top:30px;">
             <div class="app-btn">
-                <a class="layui-btn layui-btn-normal"  href="../static/patient/appointment">在线预约</a>
-                <a class="layui-btn layui-btn-normal"  href="javascript:;" onclick="createPDF()">打印挂号单</a>
+                <a class="layui-btn layui-btn-normal"  href="/patient/registration">在线预约</a>
             </div>
             <div class="layui-form" style="width: 1200px;margin: 0 auto;clear: both;">
                 <table id="table" class="layui-table">
@@ -59,20 +60,48 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <%for(p in page.list){%>
-                            <tr>
-                                <td>${pLP.index}</td>
-                                <td>${p.patientName}</td>
-                                <td>${p.doctorName}</td>
-                                <td>${p.time,'yyyy-MM-dd'}</td>
-                                <td>${p.expenses}(元)</td>
-                            </tr>
-                        <%}%>
+                    <tr th:each = " u: ${page.getList()}")>
+                        <td th:text = "${u.id}"></td>
+                        <td th:text = "${u.patientName}"></td>
+                        <td th:text = "${u.doctorName}"></td>
+                        <td th:text = "${u.time}"></td>
+                        <td th:text = "${u.expenses}"></td>
+                    </tr>
                     </tbody>
                 </table>
                 <div id="pagination"></div>
             </div>
             <div style="height: 400px;"></div>
         </div>
+        <script src="../static/js/layui.all.js"></script>
+        <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+        <script>
+            var PageNum = [[${pageNum}]];
+            var count1 = [[${page.totalRow}]];
+            layui.use('laypage', function(){
+
+                let layPage = layui.laypage;
+
+
+                //执行一个laypage实例
+                layPage.render({
+                    elem: 'pagination' //注意，这里的 test1 是 ID，不用加 # 号
+                    // 数据总数，从服务端得到
+                    ,count:count1
+                    ,limit:5
+                    ,curr:PageNum
+                    ,jump: function(obj, first){
+                        //obj包含了当前分页的所有参数，比如：
+                        //首次不执行
+                        if(!first){
+                            window.location.href = "/patient/index?pageNum="+obj.curr+"&pageSize=" +obj.limit;
+                        }
+                    }
+
+                    //设置每页显示记录数
+                });
+            });
+        </script>
     </body>
+
 </html>

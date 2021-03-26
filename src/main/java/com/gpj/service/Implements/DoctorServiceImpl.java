@@ -51,7 +51,12 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorDao.deleteById(id);
     }
 
-
+    @Override
+    public List<Doctor> getListByDepartment(String department) {
+        Query<Doctor>query = doctorDao.createQuery();
+        query.andEq("department",department);
+        return query.select();
+    }
 
 
 }

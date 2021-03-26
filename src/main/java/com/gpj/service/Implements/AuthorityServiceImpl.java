@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
@@ -20,7 +21,7 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Autowired
     private PatientDao patientDao;
     @Override
-    public ResponseResult check(Authority authority) {
+    public ResponseResult check(Authority authority, HttpSession session) {
         //从数据库查询用户
         ResponseResult result = new ResponseResult();
         Authority authority1 = authorityDao.findUserByName(authority.getUsername());//查询用户是否存在
@@ -31,6 +32,8 @@ public class AuthorityServiceImpl implements AuthorityService {
             if(authority1.getPassword().equals(authority.getPassword())){
                 result.setCode("100");//登录成功
                 result.setMsg(String.valueOf(authority1.getRole()));//登录角色
+                //绑定session
+                session.setAttribute("authority",authority1);
             }
             else{
                 result.setCode("103");//密码错误

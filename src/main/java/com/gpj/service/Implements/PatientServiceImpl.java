@@ -8,6 +8,7 @@ import com.gpj.service.DoctorService;
 import com.gpj.service.PatientService;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.engine.PageQuery;
+import org.beetl.sql.core.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -52,5 +53,12 @@ public class PatientServiceImpl implements PatientService {
     @Override
     public int deletePatient(int id) {
         return patientDao.deleteById(id);
+    }
+
+    @Override
+    public Patient findByUserId(Integer userId) {
+        Query<Patient>query = patientDao.createQuery();
+        query.andEq("user_id",userId);
+        return query.single();
     }
 }

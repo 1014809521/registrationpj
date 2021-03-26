@@ -11,4 +11,5 @@ public interface DoctorService {
     void saveDoctor(Doctor doctor);
     void editDoctor(Doctor doctor);
     int deleteDoctor(int id);
+    List<Doctor> getListByDepartment(String department);
 }

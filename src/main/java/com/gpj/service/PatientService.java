@@ -11,4 +11,6 @@ public interface PatientService {
     void savePatient(Patient patient);
     void editPatient(Patient patient);
     int deletePatient(int id);
+    //根据用户id获取患者信息
+    Patient findByUserId(Integer userId);
 }
