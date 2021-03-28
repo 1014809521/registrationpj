@@ -4,6 +4,7 @@ import com.gpj.dao.DoctorDao;
 import com.gpj.dao.PatientDao;
 import com.gpj.entity.Doctor;
 import com.gpj.entity.Patient;
+import com.gpj.result.PatientQueryResult;
 import com.gpj.service.DoctorService;
 import com.gpj.service.PatientService;
 import org.beetl.sql.core.SQLManager;
@@ -25,11 +26,14 @@ public class PatientServiceImpl implements PatientService {
 
 
     @Override
-    public PageQuery<Patient> findPatientList(long pageNum, long pageSize, String name) {
+    public PageQuery<Patient> findPatientList(PatientQueryResult patientQueryResult) {
 
-        PageQuery<Patient> query = new PageQuery(pageNum,pageSize);
-        if(!StringUtils.isEmpty(name)){
-            query.setPara("name",'%'+name+'%');
+        PageQuery<Patient> query = new PageQuery(patientQueryResult.getPageNum(),patientQueryResult.getPageSize());
+        if(!StringUtils.isEmpty(patientQueryResult.getPatientName())){
+            query.setPara("name",'%'+patientQueryResult.getPatientName()+'%');
+        }
+        if(!StringUtils.isEmpty(patientQueryResult.getDoctorId())){
+            query.setPara("doctorId",patientQueryResult.getDoctorId());
         }
 //        queryOfFindPage.setPageNumber(pageNum);//设置当前页码
 //        queryOfFindPage.setPageSize(pageSize);//设置查询数量

@@ -13,4 +13,6 @@ public interface RegistrationService {
     int deleteRegistration(int id);
     //病人预约
     ResponseResult createRegistration(Registration registration);
+    //插入返回主键
+    Integer returnID(Registration registration);
 }

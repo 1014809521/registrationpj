@@ -48,7 +48,15 @@ public class PatientUserController {
     @ResponseBody
     @RequestMapping(value = "/registration1",method = RequestMethod.POST)
     public ResponseResult save(@RequestBody Registration registration){
-        return registrationService.createRegistration(registration);
+        Integer registrationId = registrationService.returnID(registration);
+        Patient patient = new Patient();
+        patient.setId(registration.getPatientId());
+        patient.setRegistrationId(registrationId);
+        patientService.editPatient(patient);
+        ResponseResult result = new ResponseResult();
+        result.setMsg("成功");
+        result.setCode("100");
+        return result;
 
     }
 }

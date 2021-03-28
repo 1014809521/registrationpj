@@ -9,4 +9,5 @@ public class PatientQueryResult {
     private String patientName;
     private String doctorName;
     private Integer userId;
+    private Integer doctorId;
 }

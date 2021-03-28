@@ -4,6 +4,7 @@ import com.gpj.dao.PatientDao;
 import com.gpj.entity.Patient;
 import com.gpj.entity.Patient;
 import com.gpj.entity.Patient;
+import com.gpj.result.PatientQueryResult;
 import com.gpj.result.ResponseResult;
 import com.gpj.service.PatientService;
 import org.beetl.sql.core.SQLManager;
@@ -29,17 +30,15 @@ public class PatientController {
     @Autowired
     private SQLManager sqlManager;
     @RequestMapping("/patientManage")
-    public String patientManage(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
-                               @RequestParam(required = false, defaultValue = "5") Integer pageSize,
-                               @RequestParam(required = false)String name,
+    public String patientManage(PatientQueryResult patientQueryResult,
                                Model model){
-        //查询医生数据
+        //查询患者数据
 
-        PageQuery<Patient> page = patientService.findPatientList(pageNum,pageSize,name);
+        PageQuery<Patient> page = patientService.findPatientList(patientQueryResult);
 
             model.addAttribute("page",page);
-            model.addAttribute("pageNum",pageNum);
-            model.addAttribute("name",name);
+            model.addAttribute("pageNum",patientQueryResult.getPageNum());
+            model.addAttribute("name",patientQueryResult.getPatientName());
         return "patientManage";
     }
     @RequestMapping("/patientForm")

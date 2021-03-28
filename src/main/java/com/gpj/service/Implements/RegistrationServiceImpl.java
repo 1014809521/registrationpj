@@ -63,4 +63,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         return result;
     }
 
+    @Override
+    public Integer returnID(Registration registration) {
+        return registrationDao.insertReturnKey(registration).getInt();
+    }
+
 }
