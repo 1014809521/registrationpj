@@ -1,17 +1,17 @@
 <!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/html">
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>就医</title>
-    <link rel="stylesheet" href="${ctxPath}/css/layui.min.css">
+    <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
 </head>
 <body>
 <div class="layui-tab">
     <ul class="layui-tab-title">
         <li class="layui-this">诊断</li>
-        <li >开药</li>
-        <li>入院手续</li>
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-show">
@@ -19,7 +19,7 @@
                 <table class="layui-table">
                     <tr>
                         <td>患者名称</td>
-                        <td><input type="text" value="${patient.name}" readonly class="layui-input">
+                        <td><input type="text" th:value="${patient.name}" readonly class="layui-input">
                             <input type="hidden" value="${patient.id}" name="patientId" readonly class="layui-input">
                             <input type="hidden" value="${appointmentId}" name="appointmentId" readonly class="layui-input">
                         </td>
@@ -33,119 +33,8 @@
                         <td><input class="layui-input" name="illname" placeholder="请输入得了什么病"></td>
                     </tr>
                     <tr>
-                        <td>检查项目</td>
-                        <td>
-                            <%for(o in options){%>
-                                <input type="checkbox" name="${'option_' + oLP.index}" value="${o.id}"><span>${o.name}(${o.price}元)</span>
-                            <%}%>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>住院天数</td>
-                        <td><input name="days" class="layui-input" type="text" min="0" required placeholder="0天则不住院，不需要在填写住院信息"></td>
-                    </tr>
-                    <tr>
                         <td colspan="2">
                             <button class="layui-btn" type="submit">确诊</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-
-        </div>
-        <div class="layui-tab-item">
-            <form class="layui-form" id="form2" onsubmit="return drug()">
-                <table class="layui-table">
-                    <tr>
-                        <td>患者名称</td>
-                        <td><input type="text" value="${patient.name}" readonly class="layui-input">
-                            <input type="hidden" value="${patient.id}" name="patientId" readonly class="layui-input">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>配药</td>
-                        <td>
-                            <%for(d in drugs){%>
-                            <input type="checkbox">${d.name}&nbsp;&nbsp;
-                               数量：<input type="number" min="0" name="${d.id + '_number'}" style="width: 50px;" class="layui-input"><br>
-                            <%}%>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button class="layui-btn" type="submit">配药</button></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-        <div class="layui-tab-item">
-            <form class="layui-form" id="form3"  onsubmit="return zation()">
-                <table class="layui-table">
-                    <colgroup>
-                        <col width="100" >
-                        <col width="250" >
-                    </colgroup>
-                    <tr>
-                        <td style="width: 100px">楼层：</td>
-                        <td>
-                            <div class="layui-form">
-                                <div class="layui-form-item">
-                                    <select name="floor" >
-                                        <option value=""></option>
-                                        <option value="1" >一层</option>
-                                        <option value="2" >二层</option>
-                                        <option value="3" >三层</option>
-                                        <option value="4" >四层</option>
-                                        <option value="5" >五层</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>门牌号：</td>
-                        <td>
-                            <input type="text" name="door"  required  lay-verify="required"  autocomplete="off" class="layui-input">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>床号：</td>
-                        <td>
-                            <div class="layui-form">
-                                <div class="layui-form-item">
-                                    <select name="bed" >
-                                        <option value=""></option>
-                                        <option value="1" >一号床</option>
-                                        <option value="2" >二号床</option>
-                                        <option value="3" >三号床</option>
-                                        <option value="4" >四号床</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>患者</td>
-                        <td>
-                            <input type="text" value="${patient.name}" readonly class="layui-input">
-                            <input type="hidden" value="${patient.id}" name="patientId" readonly class="layui-input">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>患病：</td>
-                        <td>
-                            <input type="text" name="medicalName"  required  lay-verify="required"  autocomplete="off" class="layui-input">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>住院时间：</td>
-                        <td>
-                            <input type="date" name="intime"  required  lay-verify="required"  autocomplete="off" class="layui-input">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>操作：</td>
-                        <td>
-                            <button type="submit" class="layui-btn">入院</button>
                         </td>
                     </tr>
                 </table>
@@ -153,8 +42,8 @@
         </div>
     </div>
 </div>
-<script src="${ctxPath}/js/jquery-3.3.1.min.js"></script>
-<script src="${ctxPath}/js/layui.all.js"></script>
+<script src="http://localhost:9000/static/js/jquery-3.3.1.min.js"></script>
+<script src="http://localhost:9000/static/js/layui.all.js"></script>
 <script>
     //注意：选项卡 依赖 element 模块，否则无法进行功能性操作
     layui.use('element', function(){

@@ -2,6 +2,15 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html xmlns="http://www.w3.org/1999/html">
 <html>
+<ul class="layui-nav layui-bg-green" style="padding-left: 100px;">
+    <li class="layui-nav-item layui-this" style="margin-left: 100px;"><a href="/doctor/index">首页</a></li>
+    <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
+        <a href="javascript:;"><span style="font-weight: bold;"th:text="${session.authority.username}"></span>&nbsp;医生</a>
+        <dl class="layui-nav-child">
+            <dd><a href="/home/logout">退出登录</a></dd>
+        </dl>
+    </li>
+</ul>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -18,24 +27,22 @@
         }
     </style>
 </head>
-<body>
-
+<body bgcolor="#add8e6">
 <div class="layui-layout layui-layout-admin">
+
     <div style="width: 1200px;margin: 0 auto;clear: both;">
-        <form action="../static/doctor/index" method="get" style="margin-top: 30px;">
+        <form action="../doctor/index" method="get" style="margin-top: 30px;">
             <table>
                 <tr style="font-size: 16px;">
-                    <td>患者:</td>
+                    <td style="color:rebeccapurple">患者:</td>
                     <td><input name="patientName" autocomplete="off" class="layui-input lay-size=sm"></td>
-                    <td>&nbsp;&nbsp;预约时间:</td>
-                    <td><input name="time" type="date" autocomplete="off" class="layui-input lay-size=sm"></td>
                     <td>
                         <button class="layui-btn layui-btn-normal"style="width: 60px;margin: 0 auto;" type="submit"><i class="layui-icon">&#xe615;</i></button>
                     </td>
                 </tr>
             </table>
         </form>
-        <table class="layui-table">
+        <table class="layui-table" >
             <colgroup>
                 <col width="100">
                 <col width="100">
@@ -44,7 +51,7 @@
                 <col width="550">
             </colgroup>
             <thead>
-            <tr>
+            <tr >
                 <th>序号</th>
                 <th>患者名称</th>
                 <th>预约时间</th>
@@ -52,26 +59,22 @@
                 <th>操作</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody >
                     <tr th:each="u:${page.getList()}">
                         <td th:text="${u.id}"></td>
-                        <td th:text="${u.name}"></td>
-                        <td th:text="${u.}"></td>
-                        <td>
-                            <span class="layui-badge">未就诊</span>
-                            <% }else if(p.status == '2'){ %>
-                                <span class="layui-badge layui-bg-orange">就诊中</span>
-                            <% }else { %>
-                                <span class="layui-badge layui-bg-green">已完成</span>
-                            <%}%>
+                        <td th:text="${u.patientName}"></td>
+                        <td th:text="${u.time}"></td>
+                        <td th:switch="${u.status}">
+                            <p th:case="1">预约中</p>
+                            <p th:case="2">就诊中</p>
+                            <p th:case="3">预约结束</p>
                         </td>
                         <td colspan="2">
-                            <button style="width: 120px;" class="layui-btn layui-btn-warm" onclick="seek(${p.patientId},${p.id})">就医</button>
-                            <button style="width: 120px;" class="layui-btn layui-btn-normal" onclick="check(${p.id})">查看病史</button>
-                            <button style="width: 120px;" class="layui-btn layui-btn-danger" onclick="finishSeek(${p.id})">就诊完成</button>
+                            <button style="width: 120px;" class="layui-btn layui-btn-warm" th:onclick="'javascript:seek('+${u.patientId}+')'">就医</button>
+<!--                            <button style="width: 120px;" class="layui-btn layui-btn-normal" onclick="check(${p.id})">查看病史</button>-->
+<!--                            <button style="width: 120px;" class="layui-btn layui-btn-danger" onclick="finishSeek(${p.id})">就诊完成</button>-->
                         </td>
                     </tr>
-                <%}%>
             </tbody>
         </table>
         <div id="pagination"></div>
@@ -80,14 +83,42 @@
 
 
 <script src="../static/js/layui.all.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    var PageNum = [[${pageNum}]];
+    var count1 = [[${page.totalRow}]];
+    layui.use('laypage', function(){
+
+        let layPage = layui.laypage;
+
+
+        //执行一个laypage实例
+        layPage.render({
+            elem: 'pagination' //注意，这里的 test1 是 ID，不用加 # 号
+            // 数据总数，从服务端得到
+            ,count:count1
+            ,limit:5
+            ,curr:PageNum
+            ,jump: function(obj, first){
+                //obj包含了当前分页的所有参数，比如：
+                //首次不执行
+                if(!first){
+                    window.location.href = "/doctor/index?pageNum="+obj.curr+"&pageSize=" +obj.limit;
+                }
+            }
+
+            //设置每页显示记录数
+        });
+    });
+</script>
 <script type="text/javascript">
-    function seek(id,appointmentId) {
+    function seek(id) {
         layer.open({
             type: 2,
             title: '就医',
             // closeBtn: 0,
             area: ['800px', '600px'],
-            content: ['../static/doctor/seek/' + id + "/" + appointmentId, 'yes'],
+            content: ['seek/?id=' + id  , 'yes'],
             // btn: ['取消'],
             yes: function (index) {
                 //事件
