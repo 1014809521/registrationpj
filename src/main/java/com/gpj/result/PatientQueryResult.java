@@ -8,6 +8,7 @@ public class PatientQueryResult {
     private long pageSize = 5;
     private String patientName;
     private String doctorName;
+    private Integer patientId;
     private Integer userId;
     private Integer doctorId;
 }

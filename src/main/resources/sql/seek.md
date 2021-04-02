@@ -2,16 +2,16 @@ sample
 ===
 * 注释###
 
-    select #use("cols")# from consultation  where  #use("condition")#
+    select #use("cols")# from seek  where  #use("condition")#
 
 cols
 ===
-	id,describes,days,price,patient_id,doctor_id,reply
+	id,describes,days,price,patient_id,illness
 
 updateSample
 ===
 
-	id=#id#,describes=#describes#,days=#days#,price=#price#,patient_id=#patientId#,doctor_id=#doctorId#,reply=#reply#
+	id=#id#,describes=#describes#,days=#days#,price=#price#,patient_id=#patientId#,illness=#illness#
 
 condition
 ===
@@ -31,19 +31,17 @@ condition
     @if(!isEmpty(patientId)){
      and patient_id=#patientId#
     @}
-    @if(!isEmpty(doctorId)){
-     and doctor_id=#doctorId#
+    @if(!isEmpty(illness)){
+     and illness=#illness#
     @}
-    @if(!isEmpty(reply)){
-         and reply=#reply#
-        @}
-        
+    
+    
 selectList
 ===
         SELECT
              #page("d.*")#
         FROM
-            consultation d
+            seek d
         Where 1=1
             @if(!isEmpty(patientId)){
                  and d.patient_id = #patientId#

@@ -70,9 +70,9 @@
                             <p th:case="3">预约结束</p>
                         </td>
                         <td colspan="2">
-                            <button style="width: 120px;" class="layui-btn layui-btn-warm" th:onclick="'javascript:seek('+${u.patientId}+')'">就医</button>
-<!--                            <button style="width: 120px;" class="layui-btn layui-btn-normal" onclick="check(${p.id})">查看病史</button>-->
-<!--                            <button style="width: 120px;" class="layui-btn layui-btn-danger" onclick="finishSeek(${p.id})">就诊完成</button>-->
+                            <button style="width: 120px;" class="layui-btn layui-btn-warm" th:onclick="'javascript:seek('+${u.patientId}+','+${u.id}+')'">就医</button>
+                            <button style="width: 120px;" class="layui-btn layui-btn-normal" th:onclick="'javascript:check('+${u.patientId}+')'">查看病史</button>
+                            <button style="width: 120px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:finish('+${u.id}+')'">就诊完成</button>
                         </td>
                     </tr>
             </tbody>
@@ -112,13 +112,13 @@
     });
 </script>
 <script type="text/javascript">
-    function seek(id) {
+    function seek(id,rid) {
         layer.open({
             type: 2,
             title: '就医',
             // closeBtn: 0,
             area: ['800px', '600px'],
-            content: ['seek/?id=' + id  , 'yes'],
+            content: ['seek/?id=' + id+'&rid='+rid,'yes'],
             // btn: ['取消'],
             yes: function (index) {
                 //事件
@@ -133,7 +133,7 @@
             title: '查看病史',
             closeBtn: 0,
             area: ['800px', '600px'],
-            content: ['../static/doctor/medicalHistory/' + id, 'yes'],
+            content: ['medicalHistory/?id=' + id, 'yes'],
             btn: ['取消'],
             yes: function (index) {
                 //事件
@@ -142,22 +142,22 @@
         });
     }
 
-    function finishSeek(id){
+    function finish(id){
         layer.confirm('确认就诊完成？', {
             btn: ['确认','取消'] //按钮
         }, function(){
             $.ajax({
-                url: "../static/doctor/finishSeek/"+id,
+                url: "finishSeek/?id="+id,
                 type: 'post',
                 contentType: "application/json;charset=utf-8",
                 success: function (data) {
-                    console.log(data.message);
+                    console.log(data.msg);
                     layer.msg("就诊完成",{time:1000},function(){
                         window.location.reload();
                     })
                 },
                 error: function (data) {
-                    layer.msg(data.message, {
+                    layer.msg(data.msg, {
                         time: 1000, //2s后自动关闭
                     });
                 }

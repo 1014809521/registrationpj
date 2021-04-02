@@ -1,0 +1,141 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>新增页面</title>
+    <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <form class="layui-form" id="form1" onsubmit="return consultInfo()">
+            <input type="hidden" name="patientId" id="patientId" th:value="${patient.id}">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <tr>
+                    <td style="width: 100px">患者名称：</td>
+                    <input type="hidden" th:value="${patient.id}" name="patientId" readonly class="layui-input">
+                    <td colspan="3"th:text="${patient.name}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>预约科室：</td>
+                    <td colspan="2">
+                        <div class="layui-form">
+                            <div class="layui-form-item">
+                                <select id="department" lay-filter="department" >
+                                    <option value="">请选择科室</option>
+                                    <option value="精神科" >精神科</option>
+                                    <option value="妇产科" >妇产科</option>
+                                    <option value="口腔科" >口腔科</option>
+                                    <option value="骨科" >骨科</option>
+                                    <option value="外科" >外科</option>
+                                    <option value="内科" >内科</option>
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <td>预约医生：</td>
+                <td>
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <select name="doctorId" id="doctorId">
+                                <!--                                        <option value="${}">${appointment.doctorName}</option>-->
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                </tr>
+                <tr>
+                    <td>持续天数：</td>
+                    <td colspan="3">
+                        <input type="text" name="days" required  lay-verify="required"   autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>症状描述：</td>
+                    <td colspan="3">
+                        <input type="text" name="describes" required  lay-verify="required"   autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
+                    <td>操作：</td>
+                    <td>
+                        <input type="submit" class="layui-btn" value="提交"></input>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: red;" id="message"></span>
+                    </td>
+                </tr>
+                <tbody>
+
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script src="http://localhost:9000/static/js/layui.all.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript">
+    function consultInfo(){
+        var d = {};
+        var t = $('#form1').serializeArray();
+        $.each(t, function() {
+            d[this.name] = this.value;
+        });
+        var json=JSON.stringify(d);
+        $.ajax({
+            url:"consultInfo",
+            type:'post',
+            data:json,
+            contentType: "application/json;charset=utf-8",
+            success:function(data){
+                layer.msg(data.msg, {
+                    time: 2000, //2s后自动关闭
+                },function() {
+                    parent.location.reload();
+                });
+            },
+            error:function (data) {
+                layer.msg(data.msg, {
+                    time: 2000, //2s后自动关闭
+                });
+            }
+        });
+        return false
+    }
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer
+            , form = layui.form;
+        form.on('select(department)', function (data) {
+            var department = (data.value);
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:9000/doctor/getList/?department=' + department,
+                dataType: 'json',
+                success: function (data) {
+                    $("#doctorId").empty();
+                    data.forEach(function (item) {
+                        var name = item.name;
+                        console.log(name);
+                        var id = item.id;
+                        console.log(id);
+                        $("#doctorId").append("<option value=" + id + ">" + name +"</option>");
+                    });
+                    form.render('select');
+                }
+            });
+        });
+    });
+
+</script>
+</body>
+</html>

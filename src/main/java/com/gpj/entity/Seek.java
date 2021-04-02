@@ -1,34 +1,34 @@
 package com.gpj.entity;
 import java.math.*;
-
+import java.util.Date;
+import java.sql.Timestamp;
 import org.beetl.sql.core.annotatoin.Table;
 
 
 /* 
 * 
-* gen by beetlsql 2021-03-08
+* gen by beetlsql 2021-03-31
 */
-@Table(name="graduation.consultation")
-public class Consultation   {
+@Table(name="graduation.seek")
+public class Seek   {
 	
 	// alias
 	public static final String ALIAS_id = "id";
 	public static final String ALIAS_patient_id = "patient_id";
-	public static final String ALIAS_doctor_id = "doctor_id";
 	public static final String ALIAS_days = "days";
 	public static final String ALIAS_describes = "describes";
+	public static final String ALIAS_illness = "illness";
 	public static final String ALIAS_price = "price";
-	public static final String ALIAS_reply = "reply";
 	
 	private Integer id ;
 	private Integer patientId ;
-	private Integer doctorId ;
 	private String days ;
 	private String describes ;
+	private String illness ;
 	private BigDecimal price ;
-	private String reply;
+	private Integer registrationId;
 	
-	public Consultation() {
+	public Seek() {
 	}
 	
 	public Integer getId(){
@@ -45,13 +45,6 @@ public class Consultation   {
 		this.patientId = patientId;
 	}
 	
-	public Integer getDoctorId(){
-		return  doctorId;
-	}
-	public void setDoctorId(Integer doctorId ){
-		this.doctorId = doctorId;
-	}
-	
 	public String getDays(){
 		return  days;
 	}
@@ -66,17 +59,19 @@ public class Consultation   {
 		this.describes = describes;
 	}
 	
+	public String getIllness(){
+		return  illness;
+	}
+	public void setIllness(String illness ){
+		this.illness = illness;
+	}
+	
 	public BigDecimal getPrice(){
 		return  price;
 	}
 	public void setPrice(BigDecimal price ){
 		this.price = price;
 	}
-	public String getReply(){
-		return  reply;
-	}
-	public void setReply(String reply ){
-		this.reply = reply;
-	}
+	
 
 }

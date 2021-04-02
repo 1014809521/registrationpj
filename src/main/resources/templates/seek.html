@@ -20,7 +20,7 @@
                     <tr>
                         <td>患者名称</td>
                         <td><input type="text" th:value="${patient.name}" readonly class="layui-input">
-                            <input type="hidden" value="${patient.id}" name="patientId" readonly class="layui-input">
+                            <input type="hidden" th:value="${patient.id}" name="patientId" readonly class="layui-input">
                             <input type="hidden" value="${appointmentId}" name="appointmentId" readonly class="layui-input">
                         </td>
                     </tr>
@@ -30,7 +30,7 @@
                     </tr>
                     <tr>
                         <td>确诊病情</td>
-                        <td><input class="layui-input" name="illname" placeholder="请输入得了什么病"></td>
+                        <td><input class="layui-input" name="illness" placeholder="请输入得了什么病"></td>
                     </tr>
                     <tr>
                         <td colspan="2">
@@ -59,53 +59,39 @@
         });
         var json=JSON.stringify(d);
         $.ajax({
-            url:"${ctxPath}/doctor/seekInfo",
+            url:"../seekInfo",
             type:'post',
             data:json,
             contentType: "application/json;charset=utf-8",
             success:function(data){
-                layer.msg(data.message, {
+                layer.msg(data.msg, {
                     time: 2000, //2s后自动关闭
                 },function() {
                     parent.location.reload();
                 });
             },
             error:function (data) {
-                layer.msg(data.message, {
+                layer.msg(data.msg, {
                     time: 2000, //2s后自动关闭
                 });
             }
         });
         return false
     }
-    function drug(){
-        var d = {};
-        var t = $('#form2').serializeArray();
-        $.each(t, function() {
-            d[this.name] = this.value;
-        });
-        var json=JSON.stringify(d);
-        $.ajax({
-            url:"${ctxPath}/doctor/drug",
-            type:'put',
-            data:json,
-            contentType: "application/json;charset=utf-8",
-            success:function(data){
-                console.log(data.message);
-                layer.msg(data.message, {
-                    time: 2000, //2s后自动关闭
-                },function() {
-                    parent.location.reload();
-                });
-            },
-            error:function (data) {
-                layer.msg(data.message, {
-                    time: 2000, //2s后自动关闭
-                });
-            }
-        });
-        return false
-    }
+    // function check(id) {
+    //     layer.open({
+    //         type: 2,
+    //         title: '查看病史',
+    //         closeBtn: 0,
+    //         area: ['800px', '600px'],
+    //         content: ['../medicalHistory/' + id, 'yes'],
+    //         btn: ['取消'],
+    //         yes: function (index) {
+    //             //事件
+    //             layer.close(index);
+    //         }
+    //     });
+    // }
     function zation(){
         var d = {};
         var t = $('#form3').serializeArray();

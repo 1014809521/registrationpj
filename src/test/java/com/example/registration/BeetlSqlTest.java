@@ -13,6 +13,7 @@ import org.beetl.sql.ext.gen.MapperCodeGen;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,9 +35,9 @@ public class BeetlSqlTest {
     // ========md生成路径 要提前创建=========
     private static String mdPath = "/sql";
     // ========生成实体类所在的包=========
-    private static String pojoPkg = "com.lb.entity";
+    private static String pojoPkg = "com.gpj.entity";
     // ========生成mapper类所在的包=========
-    private static String mapperPkg = "com.lb.dao";
+    private static String mapperPkg = "com.gpj.dao";
 
     /**
      * 入口
@@ -60,13 +61,20 @@ public class BeetlSqlTest {
         System.out.println("======生成代码======");
         Set<String> tables = sqlManager.getMetaDataManager().allTable();
         for (String table : tables) {
-            System.out.printf("%-20s %s\n",table , "生成完毕");
-            //默认生成实体类的实现
-            sqlManager.genPojoCode(table, pojoPkg, config);
-            //自定义实现
-            genMd(sqlManager, config, table);
-            //自定义实现
-            genMapper(sqlManager, config, table);
+            if (table.equals("seek")) {
+                System.out.println(233);
+                System.out.printf("%-20s %s\n", table, "生成完毕");
+                //默认生成实体类的实现
+                sqlManager.genPojoCode(table, pojoPkg, config);
+                //自定义实现
+                genMd(sqlManager, config, table);
+                //自定义实现
+                genMapper(sqlManager, config, table);
+            }
+            else {
+                System.out.println(table);
+                continue;
+            }
         }
         System.out.println("=====生成完毕=====");
     }

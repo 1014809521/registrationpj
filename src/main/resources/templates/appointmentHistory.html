@@ -1,6 +1,7 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/html">
 <html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -34,6 +35,7 @@
     <ul class="layui-nav layui-bg-blue" style="padding-left: 125px;">
         <li class="layui-nav-item layui-this"><a href="/patient/index">首页</a></li>
         <li class="layui-nav-item"><a href="/patient/search">查询</a></li>
+        <li class="layui-nav-item"><a href="/patient/consultation">询问记录</a></li>
         <li class="layui-nav-item" lay-unselect="">
             <a href="javascript:;"th:text= "${session.authority.username}"></a>
             <dl class="layui-nav-child">
@@ -47,8 +49,10 @@
 
             <!-- 内容主体区域 -->
             <hr style="magin-top:30px;">
-            <div class="app-btn">
+            <div class="app-btn" >
+                <input type="hidden"  >
                 <a class="layui-btn layui-btn-normal"  href="/patient/registration">在线预约</a>
+                <a class="layui-btn layui-btn-danger"  href="/patient/consult">在线咨询</a>
             </div>
             <div class="layui-form" style="width: 1200px;margin: 0 auto;clear: both;">
                 <table id="table" class="layui-table">
@@ -71,7 +75,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr th:each = " u: ${page.getList()}")>
+                    <tr th:each = " u: ${page.getList()}">
                         <td th:text = "${u.id}"></td>
                         <td th:text = "${u.patientName}"></td>
                         <td th:text = "${u.doctorName}"></td>
@@ -117,6 +121,21 @@
                     //设置每页显示记录数
                 });
             });
+
+            function consult(id){
+                layer.open({
+                    type: 2,
+                    title: '咨询',
+                    // closeBtn: 0,
+                    area: ['800px', '600px'],
+                    content: ['consult/?id=' + id,'yes'],
+                    // btn: ['取消'],
+                    yes: function (index) {
+                        //事件
+                        layer.close(index);
+                    }
+                });
+            }
         </script>
     </body>
 
