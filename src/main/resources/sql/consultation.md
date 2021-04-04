@@ -48,3 +48,6 @@ selectList
             @if(!isEmpty(patientId)){
                  and d.patient_id = #patientId#
             @}
+            @if(!isEmpty(doctorId)){
+                             and d.doctor_id = #doctorId#
+                        @}

@@ -1,6 +1,7 @@
 package com.gpj.service;
 
 import com.gpj.entity.Consultation;
+import com.gpj.entity.Department;
 import com.gpj.entity.Seek;
 import com.gpj.result.ResponseResult;
 import org.beetl.sql.core.engine.PageQuery;
@@ -11,4 +12,7 @@ import java.util.Map;
 public interface ConsultationService {
     ResponseResult save(Map map);
     PageQuery<Consultation> findConsultList(long pageNum, long pageSize, Integer patientId);
+    PageQuery<Consultation> findConsultList1(long pageNum, long pageSize, Integer doctorId);
+    void editConsult(Consultation consultation);
+
 }

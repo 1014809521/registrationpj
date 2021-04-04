@@ -35,4 +35,16 @@ public class ConsultationServiceImpl implements ConsultationService {
         consultationDao.selectList(query);
         return query;
     }
+    @Override
+    public PageQuery<Consultation> findConsultList1(long pageNum, long pageSize, Integer doctorId) {
+        PageQuery<Consultation> query = new PageQuery<>();
+        query.setPara("doctorId", doctorId);
+        consultationDao.selectList(query);
+        return query;
+    }
+
+    @Override
+    public void editConsult(Consultation consultation) {
+        consultationDao.updateTemplateById(consultation);
+    }
 }

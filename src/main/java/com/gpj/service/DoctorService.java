@@ -1,6 +1,7 @@
 package com.gpj.service;
 
 import com.gpj.entity.Doctor;
+import com.gpj.entity.Patient;
 import com.gpj.result.ResponseResult;
 import org.beetl.sql.core.engine.PageQuery;
 
@@ -12,4 +13,5 @@ public interface DoctorService {
     void editDoctor(Doctor doctor);
     int deleteDoctor(int id);
     List<Doctor> getListByDepartment(String department);
+    Doctor findByUserId(Integer userId);
 }

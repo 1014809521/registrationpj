@@ -2,6 +2,7 @@ package com.gpj.service.Implements;
 
 import com.gpj.dao.DoctorDao;
 import com.gpj.entity.Doctor;
+import com.gpj.entity.Patient;
 import com.gpj.result.ResponseResult;
 import com.gpj.service.DoctorService;
 import org.beetl.sql.core.SQLManager;
@@ -56,6 +57,13 @@ public class DoctorServiceImpl implements DoctorService {
         Query<Doctor>query = doctorDao.createQuery();
         query.andEq("department",department);
         return query.select();
+    }
+
+    @Override
+    public Doctor findByUserId(Integer userId) {
+        Query<Doctor>query = doctorDao.createQuery();
+        query.andEq("user_id",userId);
+        return query.single();
     }
 
 

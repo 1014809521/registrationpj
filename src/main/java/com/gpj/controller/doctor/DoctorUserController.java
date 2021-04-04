@@ -1,15 +1,13 @@
 package com.gpj.controller.doctor;
 
+import com.gpj.dao.ConsultationDao;
 import com.gpj.dao.DoctorDao;
 import com.gpj.dao.PatientDao;
 import com.gpj.dao.RegistrationDao;
 import com.gpj.entity.*;
 import com.gpj.result.PatientQueryResult;
 import com.gpj.result.ResponseResult;
-import com.gpj.service.DoctorService;
-import com.gpj.service.PatientService;
-import com.gpj.service.RegistrationService;
-import com.gpj.service.SeekService;
+import com.gpj.service.*;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.engine.PageQuery;
 import org.beetl.sql.core.query.Query;
@@ -19,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.Doc;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +39,10 @@ public class DoctorUserController {
     @Autowired
     private RegistrationDao registrationDao;
     @Autowired
+    private ConsultationDao consultationDao;
+    @Autowired
+    private ConsultationService consultationService;
+    @Autowired
     private DoctorDao doctorDao;
     @Autowired
     private SQLManager sqlManager;
@@ -51,6 +54,30 @@ public class DoctorUserController {
         model.addAttribute("page",page);
         model.addAttribute("pageNum",patientQueryResult.getPageNum());
         return "doctorIndex";
+    }
+    @RequestMapping("/consult")
+    public String consult(
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+            @RequestParam(required = false, defaultValue = "5") Integer pageSize,
+            HttpSession session,Model model){
+        //查询预约记录
+        Authority authority = (Authority) session.getAttribute("authority");
+        Doctor doctor = doctorService.findByUserId(authority.getId());
+        PageQuery<Consultation> page = consultationService.findConsultList1(pageNum,pageSize,doctor.getId());
+        model.addAttribute("page",page);
+        model.addAttribute("pageNum",pageNum);
+        model.addAttribute("doctorId",doctor.getId());
+        return "consultation1";
+    }
+    @RequestMapping("/consultModify")
+    public String test(@RequestParam("id") long id,Model model){
+        model.addAttribute("consult",consultationDao.single(id));
+        return "consultForm1";
+    }
+    @RequestMapping("/consultEdit")
+    public String edit(Consultation consultation){
+        consultationService.editConsult(consultation);
+        return "redirect:index";
     }
     @RequestMapping("/medicalHistory")
     public String medicalHistory(@RequestParam("id") Integer patientId,
