@@ -1,8 +1,11 @@
 package com.gpj.controller.doctor;
 
+import com.gpj.dao.AuthorityDao;
 import com.gpj.dao.DoctorDao;
+import com.gpj.entity.Authority;
 import com.gpj.entity.Doctor;
 import com.gpj.result.ResponseResult;
+import com.gpj.service.AuthorityService;
 import com.gpj.service.DoctorService;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.engine.PageQuery;
@@ -26,6 +29,10 @@ public class DoctorController {
     private DoctorDao doctorDao;
     @Autowired
     private SQLManager sqlManager;
+    @Autowired
+    private AuthorityService authorityService;
+    @Autowired
+    private AuthorityDao authorityDao;
     @RequestMapping("/doctorManage")
     public String doctorManage(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                @RequestParam(required = false, defaultValue = "5") Integer pageSize,
@@ -69,6 +76,9 @@ public class DoctorController {
     @RequestMapping("/doctorSave")
     public String save(Doctor doctor){
         doctorService.saveDoctor(doctor);
+        Authority authority = authorityService.findByUserId(doctor.getUserId());
+        authority.setRole(2);
+        authorityDao.updateTemplateById(authority);
         return "redirect:doctorManage";
 
     }
@@ -83,6 +93,7 @@ public class DoctorController {
         doctorService.editDoctor(doctor);
         return "redirect:doctorManage";
     }
+
 
 //    @RequestMapping("/modify/{id}")
 //    public String doctorForm1(@PathVariable long id,Model model){

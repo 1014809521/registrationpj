@@ -1,6 +1,7 @@
 package com.gpj.service;
 
 import com.gpj.entity.Authority;
+import com.gpj.entity.Doctor;
 import com.gpj.result.ActiveResult;
 import com.gpj.result.ResponseResult;
 
@@ -11,4 +12,5 @@ public interface AuthorityService {
     ResponseResult check(Authority authority, HttpSession session);
     //注册用户
     ResponseResult register(ActiveResult activeResult);
+    Authority findByUserId(Integer userId);
 }

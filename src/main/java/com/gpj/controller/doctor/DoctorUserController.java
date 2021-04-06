@@ -55,6 +55,7 @@ public class DoctorUserController {
     @RequestMapping("/index")
     public String index(PatientQueryResult patientQueryResult, HttpSession session,Model model){
         Authority authority = (Authority)session.getAttribute("authority");
+        patientQueryResult.setDoctorId(authority.getId());
         PageQuery <Registration> page = registrationService.findList(patientQueryResult);
         model.addAttribute("page",page);
         model.addAttribute("pageNum",patientQueryResult.getPageNum());

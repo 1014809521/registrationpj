@@ -58,6 +58,7 @@
                     <th>年龄</th>
                     <th>性别</th>
                     <th>所属部门</th>
+                    <th>挂号费</th>
                     <th>信息</th>
                     <th>操作&nbsp;&nbsp;&nbsp;&nbsp;
                         <button class="layui-btn" onclick="showAdd('/admin/doctorForm')"><i class="layui-icon">&#xe608;</i> 添加</button>
@@ -71,6 +72,7 @@
                             <td th:text = "${u.age}"></td>
                             <td th:text = "${u.sex == 1?'男':'女'}"></td>
                             <td th:text = "${u.department}"></td>
+                            <td th:text = "${u.price}"></td>
                             <td th:text = "${u.text}"></td>
                             <td>
                                 <button class="layui-btn"

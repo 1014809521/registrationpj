@@ -2,6 +2,7 @@ package com.gpj.controller.department;
 
 import com.gpj.dao.DepartmentDao;
 import com.gpj.entity.Department;
+import com.gpj.entity.Doctor;
 import com.gpj.result.ResponseResult;
 import com.gpj.service.DepartmentService;
 import org.beetl.sql.core.SQLManager;
@@ -12,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -71,5 +74,11 @@ public class DepartmentController {
         departmentService.editDepartment(department);
         return "redirect:departmentManage";
     }
+    @ResponseBody
+    @RequestMapping(value = "/getDepartmentList")
+    public List<Department> getList(){
+        return departmentDao.all();
+    }
+
 }
 

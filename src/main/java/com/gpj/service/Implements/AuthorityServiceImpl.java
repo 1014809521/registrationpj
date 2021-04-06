@@ -3,11 +3,14 @@ package com.gpj.service.Implements;
 import com.gpj.dao.AuthorityDao;
 import com.gpj.dao.PatientDao;
 import com.gpj.entity.Authority;
+import com.gpj.entity.Doctor;
 import com.gpj.entity.Patient;
 import com.gpj.result.ActiveResult;
 import com.gpj.result.ResponseResult;
 import com.gpj.service.AuthorityService;
+import com.gpj.service.DoctorService;
 import org.beetl.sql.core.query.LambdaQuery;
+import org.beetl.sql.core.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,8 @@ public class AuthorityServiceImpl implements AuthorityService {
     private AuthorityDao authorityDao;
     @Autowired
     private PatientDao patientDao;
+    @Autowired
+    private DoctorService doctorService;
     @Override
     public ResponseResult check(Authority authority, HttpSession session) {
         //从数据库查询用户
@@ -54,7 +59,17 @@ public class AuthorityServiceImpl implements AuthorityService {
         if(authority1!=null){
             result.setCode("201");
             result.setMsg("用户存在");
-        }else {
+        }
+//        else if (doctorService.findByUserId(authority1.getId()).getId()!=null){
+//            authority1 = new Authority();
+//            authority1.setRole(2);
+//            authority1.setUsername(activeResult.getUsername());
+//            authority1.setPassword(activeResult.getPassword());
+//            authorityDao.insert(authority1);
+//            result.setCode("200");
+//            result.setMsg("注册成功");
+//        }
+            else {
             patient = new Patient();
             authority1 = new Authority();
             authority1.setRole(3);
@@ -67,5 +82,12 @@ public class AuthorityServiceImpl implements AuthorityService {
             result.setMsg("注册成功");
         }
         return result;
+    }
+
+    @Override
+    public Authority findByUserId(Integer userId) {
+        Query<Authority> query = authorityDao.createQuery();
+        query.andEq("id",userId);
+        return query.single();
     }
 }

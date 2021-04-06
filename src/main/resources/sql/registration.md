@@ -53,3 +53,6 @@ selectList
             @if(!isEmpty(userId)){
                 and p.user_id = #userId#
             @}
+            @if(!isEmpty(doctorId)){
+                            and a.doctor_id = #doctorId#
+                        @}

@@ -46,7 +46,13 @@
                 <tr>
                     <td>部门：</td>
                     <td>
-                        <input type="text" name="department"th:value= '${doctor.department}' required   lay-verify="required"  autocomplete="off" class="layui-input">
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                    <select name="department" id="department" th:value="${doctor.department}" class="layui-select">
+                        <!--                                        <option value="${}">${appointment.doctorName}</option>-->
+                    </select>
+                        </div>
+                    </div>
                     </td>
                 </tr>
                 <tr>
@@ -63,6 +69,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>挂号费：</td>
+                    <td>
+                        <input type="text" name="price" th:value= '${doctor.price}' required   lay-verify="required"  autocomplete="off" class="layui-input">
+                    </td>
+                </tr>
+                <tr>
                     <td>操作：</td>
                     <td>
                         <input type="submit" class="layui-btn" value="提交"></input>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: red;" id="message"></span>
@@ -74,5 +86,29 @@
         </form>
     </div>
 </div>
+<script src="http://localhost:9000/static/js/layui.all.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script>
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer
+            , form = layui.form;
+            $.ajax({
+                type: 'GET',
+                url: '../getDepartmentList',
+                dataType: 'json',
+                success: function (data) {
+                    $("#department").empty();
+                    data.forEach(function (item) {
+                        var name = item.name;
+                        $("#department").append("<option th:value=" +name + ">" + name +"</option>");
+                        // $("#expense").append(price);
+
+                    });
+                    form.render('select');
+                }
+            });
+
+    });
+</script>
 </body>
 </html>

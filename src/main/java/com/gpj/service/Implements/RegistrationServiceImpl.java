@@ -23,6 +23,9 @@ public class RegistrationServiceImpl implements RegistrationService {
         if(!StringUtils.isEmpty(patientQueryResult.getPatientName())){
             query.setPara("patientName",patientQueryResult.getPatientName());
         }
+        if(!StringUtils.isEmpty(patientQueryResult.getDoctorId())){
+            query.setPara("doctorId",patientQueryResult.getDoctorId());
+        }
         if(!StringUtils.isEmpty(patientQueryResult.getDoctorName())){
             query.setPara("doctorName",patientQueryResult.getDoctorName());
         }
