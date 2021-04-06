@@ -15,7 +15,7 @@ public class Return   {
 	public static final String ALIAS_patient_id = "patient_id";
 	public static final String ALIAS_registration_id = "registration_id";
 	public static final String ALIAS_describe = "describe";
-	public static final String ALIAS_status = "status";
+	public static final String ALIAS_question = "question";
 	
 	/*
 	主键
@@ -37,7 +37,7 @@ public class Return   {
 	/*
 	就诊状态
 	*/
-	private String status ;
+	private String question ;
 	
 	public Return() {
 	}
@@ -113,15 +113,15 @@ public class Return   {
 	* 就诊状态
 	*@return 
 	*/
-	public String getStatus(){
-		return  status;
+	public String getQuestion(){
+		return  question;
 	}
 	/**
 	* 就诊状态
-	*@param  status
+	*@param  question
 	*/
-	public void setStatus(String status ){
-		this.status = status;
+	public void setQuestion(String question ){
+		this.question = question;
 	}
 	
 

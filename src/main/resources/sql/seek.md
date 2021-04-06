@@ -46,3 +46,6 @@ selectList
             @if(!isEmpty(patientId)){
                  and d.patient_id = #patientId#
             @}
+            @if(!isEmpty(registrationId)){
+                             and d.registrationId = #registrationId#
+                        @}

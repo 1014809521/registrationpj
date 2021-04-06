@@ -1,9 +1,7 @@
 package com.gpj.controller.doctor;
 
-import com.gpj.dao.ConsultationDao;
-import com.gpj.dao.DoctorDao;
-import com.gpj.dao.PatientDao;
-import com.gpj.dao.RegistrationDao;
+import com.baomidou.mybatisplus.extension.api.R;
+import com.gpj.dao.*;
 import com.gpj.entity.*;
 import com.gpj.result.PatientQueryResult;
 import com.gpj.result.ResponseResult;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.print.Doc;
 import javax.servlet.http.HttpSession;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.jar.JarOutputStream;
@@ -37,11 +36,17 @@ public class DoctorUserController {
     @Autowired
     private PatientDao patientDao;
     @Autowired
+    private ReturnDao returnDao;
+    @Autowired
+    private SeekDao seekDao;
+    @Autowired
     private RegistrationDao registrationDao;
     @Autowired
     private ConsultationDao consultationDao;
     @Autowired
     private ConsultationService consultationService;
+    @Autowired
+    private ReturnService returnService;
     @Autowired
     private DoctorDao doctorDao;
     @Autowired
@@ -118,6 +123,50 @@ public class DoctorUserController {
         return seekService.save(map);
     }
 
+//    @RequestMapping("/return1")
+//    public String return1(@RequestParam("id")Integer id, @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+//                          @RequestParam(required = false, defaultValue = "5") Integer pageSize,Model model){
+//        PageQuery<Seek> page = seekService.findSeekList1(pageNum,pageSize,id);
+//        model.addAttribute("page",page);
+//        model.addAttribute("pageNum",pageNum);
+//        model.addAttribute("registrationId",id);
+//        return "return";
+//    }
+    @RequestMapping("/return1")
+    public String test2(@RequestParam("id") int id,
+                        @RequestParam(required = false, defaultValue = "1") Integer pageNum,
+                        @RequestParam(required = false, defaultValue = "5") Integer pageSize,Model model){
+        Registration registration = registrationDao.single(id);
+//        PageQuery<Seek> page = seekService.findSeekList(pageNum,pageSize,registration.getPatientId());
+        Return return1 = new Return();
+        return1.setDoctorId(registration.getDoctorId());
+        return1.setRegistrationId(id);
+        return1.setPatientId(registration.getPatientId());
+//        Seek seek = (Seek) page.getParas();
+        model.addAttribute("return1",return1);
+//        model.addAttribute("page",seek);
+        return "return";
+    }
+    @ResponseBody
+    @RequestMapping("/returnEdit")
+    public ResponseResult edit(@RequestBody Map map){
+//        System.out.println(map);
+
+        return returnService.save(map);
+    }
+
+    @RequestMapping("/returnList")
+    public String returnList( @RequestParam("id") int id, HttpSession session,Model model){
+        Authority authority = (Authority)session.getAttribute("authority");
+        PatientQueryResult patientQueryResult = new PatientQueryResult();
+        Doctor doctor = doctorService.findByUserId(authority.getId());
+        patientQueryResult.setDoctorId(doctor.getId());
+        patientQueryResult.setRegistrationId(id);
+        PageQuery <Return> page = returnService.findList(patientQueryResult);
+        model.addAttribute("page",page);
+        model.addAttribute("pageNum",patientQueryResult.getPageNum());
+        return "doctorReturn";
+    }
 
     //根据部门查询医生
 @ResponseBody
@@ -125,6 +174,15 @@ public class DoctorUserController {
 public List<Doctor> getList(@RequestParam String department){
     return doctorService.getListByDepartment(department);
 }
+//    @ResponseBody
+//    @RequestMapping(value = "/getList1")
+//    public List<Doctor> getList1(@RequestParam String doctor){
+//        return doctorService.getListByDepartment(department);
+//    }
 
 
 }
+
+
+
+

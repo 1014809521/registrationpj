@@ -1,12 +1,14 @@
 package com.gpj.controller.patient;
 
 import com.gpj.dao.PatientDao;
+import com.gpj.dao.ReturnDao;
 import com.gpj.entity.*;
 import com.gpj.result.PatientQueryResult;
 import com.gpj.result.ResponseResult;
 import com.gpj.service.ConsultationService;
 import com.gpj.service.PatientService;
 import com.gpj.service.RegistrationService;
+import com.gpj.service.ReturnService;
 import org.beetl.sql.core.engine.PageQuery;
 import org.beetl.sql.core.query.Query;
 import org.beetl.sql.core.SQLManager;
@@ -31,6 +33,10 @@ public class PatientUserController {
     private PatientService patientService;
     @Autowired
     private PatientDao patientDao;
+    @Autowired
+    private ReturnDao returnDao;
+    @Autowired
+    private ReturnService returnService;
     @Autowired
     private ConsultationService consultationService;
     @RequestMapping("/index")
@@ -97,5 +103,28 @@ public class PatientUserController {
         model.addAttribute("pageNum",pageNum);
         model.addAttribute("patientId",patient.getId());
         return "consultation";
+    }
+    @RequestMapping("/returnList")
+    public String consult(@RequestParam("id" )int id,
+            HttpSession session,Model model){
+        //查询预约记录
+        Authority authority = (Authority) session.getAttribute("authority");
+        Patient patient = patientService.findByUserId(authority.getId());
+        PatientQueryResult patientQueryResult = new PatientQueryResult();
+        patientQueryResult.setRegistrationId(id);
+        PageQuery<Return> page = returnService.findList(patientQueryResult);
+        model.addAttribute("page",page);
+        model.addAttribute("pageNum",patientQueryResult.getPageNum());
+        return "patientReturn";
+    }
+    @RequestMapping("/returnModify")
+    public String test(@RequestParam("id") int id,Model model){
+        model.addAttribute("return1",returnDao.single(id));
+        return "returnForm";
+    }
+    @RequestMapping("/returnEdit")
+    public String edit(Return return1){
+        returnService.editReturn(return1);
+        return "success";
     }
 }

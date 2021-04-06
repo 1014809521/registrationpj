@@ -6,12 +6,12 @@ sample
 
 cols
 ===
-	id,registration_id,patient_id,doctor_id,status,describe
+	id,registration_id,patient_id,doctor_id,question,describe
 
 updateSample
 ===
 
-	id=#id#,registration_id=#registrationId#,patient_id=#patientId#,doctor_id=#doctorId#,status=#status#,describe=#describe#
+	id=#id#,registration_id=#registrationId#,patient_id=#patientId#,doctor_id=#doctorId#,question=#question#,describe=#describe#
 
 condition
 ===
@@ -28,9 +28,26 @@ condition
     @if(!isEmpty(doctorId)){
      and doctor_id=#doctorId#
     @}
-    @if(!isEmpty(status)){
-     and status=#status#
+    @if(!isEmpty(question)){
+     and question=#question#
     @}
     @if(!isEmpty(describe)){
      and describe=#describe#
     @}
+    
+selectList
+===
+        SELECT
+             #page("d.*")#
+        FROM
+            graduation.return d
+        Where 1=1
+            @if(!isEmpty(patientId)){
+                 and d.patient_id = #patientId#
+            @}
+            @if(!isEmpty(doctorId)){
+                   and d.doctor_id = #doctorId#
+                        @}
+            @if(!isEmpty(registrationId)){
+                               and d.registration_id = #registrationId#
+                                    @}

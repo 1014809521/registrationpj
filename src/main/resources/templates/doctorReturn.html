@@ -2,27 +2,10 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html xmlns="http://www.w3.org/1999/html">
 <html>
-<ul class="layui-nav layui-bg-green" style="padding-left: 100px;">
-    <li class="layui-nav-item layui-this" style="margin-left: 100px;"><a href="/doctor/index">首页</a></li>
-    <li class="layui-nav-item " ><a href="/doctor/consult">患者咨询</a></li>
-    <li class="layui-nav-item " ><a href="/doctor/returnList">回访记录</a></li>
 
-    <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
-        <a href="javascript:;"><span style="font-weight: bold;"th:text="${session.authority.username}"></span>&nbsp;医生</a>
-        <dl class="layui-nav-child">
-            <dd><a href="/home/logout">退出登录</a></dd>
-        </dl>
-    </li>
-</ul>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>就医</title>
-    <link rel="stylesheet" href="../static/css/layui.min.css">
-    <link rel="stylesheet" href="../static/css/normalize.css" type="text/css"/>
-    <link rel="stylesheet" href="../static/css/secondary.css" type="text/css"/>
-    <script language="javascript" type="text/javascript" src="../static/js/KunyiHTML5.min.js"></script>
-    <script language="javascript" type="text/javascript" src="../static/js/Kunyilibrary.js"></script>
     <style>
         /*分页样式*/
         .layui-laypage .layui-laypage-curr .layui-laypage-em {
@@ -34,17 +17,6 @@
 <div class="layui-layout layui-layout-admin">
 
     <div style="width: 1200px;margin: 0 auto;clear: both;">
-        <form action="../doctor/index" method="get" style="margin-top: 30px;">
-            <table>
-                <tr style="font-size: 16px;">
-                    <td style="color:rebeccapurple">患者:</td>
-                    <td><input name="patientName" autocomplete="off" class="layui-input lay-size=sm"></td>
-                    <td>
-                        <button class="layui-btn layui-btn-normal"style="width: 60px;margin: 0 auto;" type="submit"><i class="layui-icon">&#xe615;</i></button>
-                    </td>
-                </tr>
-            </table>
-        </form>
         <table class="layui-table" >
             <colgroup>
                 <col width="100">
@@ -56,29 +28,21 @@
             <thead>
             <tr >
                 <th>序号</th>
-                <th>患者名称</th>
-                <th>预约时间</th>
-                <th>就诊状态</th>
-                <th>操作</th>
+                <th>回访</th>
+                <th>回复</th>
             </tr>
             </thead>
             <tbody >
-                    <tr th:each="u:${page.getList()}">
+                    <tr th:each="u:${page.getList()} ">
                         <td th:text="${u.id}"></td>
-                        <td th:text="${u.patientName}"></td>
-                        <td th:text="${u.time}"></td>
-                        <td th:switch="${u.status}">
-                            <p th:case="1">预约中</p>
-                            <p th:case="2">就诊中</p>
-                            <p th:case="3">预约结束</p>
-                        </td>
-                        <td colspan="2">
-                            <button style="width: 90px;" class="layui-btn layui-btn-warm" th:onclick="'javascript:seek('+${u.patientId}+','+${u.id}+')'">就医</button>
-                            <button style="width: 90px;" class="layui-btn layui-btn-normal" th:onclick="'javascript:check('+${u.patientId}+')'">查看病史</button>
-                            <button style="width: 90px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:return1('+${u.id}+')'">回访</button>
-                            <button style="width: 90px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:return2('+${u.id}+')'">回访记录</button>
-                            <button style="width: 90px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:finish('+${u.id}+')'">就诊完成</button>
-                        </td>
+                        <td th:text="${u.question}"></td>
+                        <td th:text="${u.describe}"></td>
+<!--                        <td colspan="2">-->
+<!--                            <button style="width: 120px;" class="layui-btn layui-btn-warm" th:onclick="'javascript:seek('+${u.patientId}+','+${u.id}+')'">就医</button>-->
+<!--                            <button style="width: 120px;" class="layui-btn layui-btn-normal" th:onclick="'javascript:check('+${u.patientId}+')'">查看病史</button>-->
+<!--                            <button style="width: 120px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:return1('+${u.id}+')'">回访</button>-->
+<!--                            <button style="width: 120px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:finish('+${u.id}+')'">就诊完成</button>-->
+<!--                        </td>-->
                     </tr>
             </tbody>
         </table>
@@ -138,20 +102,6 @@
             // closeBtn: 0,
             area: ['800px', '600px'],
             content: ['return1/?id=' + id,'yes'],
-            // btn: ['取消'],
-            yes: function (index) {
-                //事件
-                layer.close(index);
-            }
-        });
-    }
-    function return2(id) {
-        layer.open({
-            type: 2,
-            title: '回访',
-            // closeBtn: 0,
-            area: ['800px', '600px'],
-            content: ['returnList/?id=' + id,'yes'],
             // btn: ['取消'],
             yes: function (index) {
                 //事件

@@ -59,13 +59,13 @@
                     <tr>
                         <td>预约时间：</td>
                         <td colspan="3">
-                                <input type="date" name="time" required  lay-verify="required"   autocomplete="off" class="layui-input">
+                                <input type="date" name="time"  required  lay-verify="required"   autocomplete="off" class="layui-input">
                         </td>
                     </tr>
                     <tr>
                         <td>门诊费：</td>
                         <td colspan="3">
-                            <input type="text" name="expenses" required  lay-verify="required"   autocomplete="off" class="layui-input">
+                            <input type="text" name="expense" id="expense"  readonly = "readonly" required  lay-verify="required"   autocomplete="off" class="layui-input">
                         </td>
                     </tr>
                     <tr>
@@ -129,13 +129,18 @@
                         var name = item.name;
                         console.log(name);
                         var id = item.id;
+                        var price = item.price;
+                        console.log(price);
                         console.log(id);
                         $("#doctorId").append("<option value=" + id + ">" + name +"</option>");
+                        // $("#expense").append(price);
+                        $("#expense").val(String(price));
                     });
                     form.render('select');
                 }
             });
         });
+
     });
 
 </script>

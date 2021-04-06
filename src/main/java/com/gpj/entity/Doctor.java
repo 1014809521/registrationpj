@@ -17,6 +17,7 @@ public class Doctor   {
 	public static final String ALIAS_department = "department";
 	public static final String ALIAS_name = "name";
 	public static final String ALIAS_text = "text";
+	public static final String ALIAS_price = "price";
 	
 	private Integer id ;
 	/*
@@ -43,6 +44,8 @@ public class Doctor   {
 	简介
 	*/
 	private String text ;
+
+	private Integer price;
 
 	
 	public Doctor() {
@@ -143,6 +146,20 @@ public class Doctor   {
 	*/
 	public void setText(String text ){
 		this.text = text;
+	}
+
+
+
+	public void setPrice(Integer price ){
+		this.price = price;
+	}
+
+	/**
+	 * 年龄
+	 *@return
+	 */
+	public Integer getPrice(){
+		return  price;
 	}
 	
 

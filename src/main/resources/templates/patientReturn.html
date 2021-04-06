@@ -7,16 +7,6 @@
         <title>咨询记录</title>
         <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
     </head>
-    <ul class="layui-nav layui-bg-blue" style="padding-left: 125px;">
-        <li class="layui-nav-item "><a href="/patient/index">首页</a></li>
-        <li class="layui-nav-item layui-this"><a href="/patient/consultation">询问记录</a></li>
-        <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
-            <a href="javascript:;"th:text= "${session.authority.username}"></a>
-            <dl class="layui-nav-child">
-                <dd><a href="/home/logout">退出登录</a></dd>
-            </dl>
-        </li>
-    </ul>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
             <!-- 内容主体区域 -->
@@ -33,21 +23,34 @@
                             <thead>
                             <tr>
                                 <th>序号</th>
-                                <th>持续天数</th>
-                                <th>描述</th>
+                                <th>回访信息</th>
                                 <th>回复</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tr th:each="u : ${page.getList()}">
                                 <td th:text="${u.id}"></td>
-                                <td th:text="${u.days}"></td>
-                                <td th:text="${u.describes}"></td>
-                                <td th:text="${u.reply}"></td>
+                                <td th:text="${u.question}"></td>
+                                <td th:text="${u.describe}"></td>
+                                <td >
+                                    <button class="layui-btn"
+                                            th:onclick="'javascript:edit('+${u.id}+')' "><i class="layui-icon">&#xe642;</i></button>
+                                </td>
                             </tr>
                         </table>
                     </table>
                     <hr>
             </div>
         </div>
+        <script src="http://localhost:9000/static/js/layui.all.js"></script>
+        <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script>
+        function edit(location) {
+
+            // window.location.href = 'admin/modify/'+location
+
+            window.location.href = '../returnModify/?id='+location
+        }
+    </script>
     </body>
 </html>

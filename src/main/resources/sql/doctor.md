@@ -6,12 +6,12 @@ sample
 
 cols
 ===
-	id,name,age,sex,department,text,user_id
+	id,name,age,sex,department,text,user_id,price
 
 updateSample
 ===
 
-	id=#id#,name=#name#,age=#age#,sex=#sex#,department=#department#,text=#text#,user_id=#userId#
+	id=#id#,name=#name#,age=#age#,sex=#sex#,department=#department#,text=#text#,user_id=#userId#,price=#price#
 
 condition
 ===
@@ -37,3 +37,6 @@ condition
     @if(!isEmpty(userId)){
      and user_id=#userId#
     @}
+    @if(!isEmpty(price)){
+         and price=#price#
+        @}

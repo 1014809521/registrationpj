@@ -39,4 +39,12 @@ public class SeekServiceImpl implements SeekService {
         return query;
     }
 
+    @Override
+    public PageQuery<Seek> findSeekList1(long pageNum, long pageSize, Integer registrationId) {
+        PageQuery<Seek> query = new PageQuery<>();
+        query.setPara("registrationId", registrationId);
+        seekDao.selectList(query);
+        return query;
+    }
+
 }

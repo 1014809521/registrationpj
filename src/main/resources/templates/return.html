@@ -1,0 +1,95 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>修改页面</title>
+    <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+        <form class="layui-form" id="form1" onsubmit="return returnEdit()">
+            <input type="hidden" name="registrationId" th:value="${return1.registrationId}" >
+            <input type="hidden" name="patientId" th:value="${return1.patientId}" >
+            <input type="hidden" name="doctorId" th:value="${return1.doctorId}" >
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col width="200" >
+                    <col>
+                </colgroup>
+<!--                <tr>-->
+<!--                    <td style="width: 100px">描述：</td>-->
+<!--                    <td>-->
+<!--                        <input type="text" name="describes" th:value= '${page.describes}' required autocomplete="off" readonly = "readonly" class="layui-input">-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td>疾病：</td>-->
+<!--                    <td>-->
+<!--                        <input type="text" name="illness"th:value= '${page.illness}' required   lay-verify="required"  readonly = "readonly" autocomplete="off" class="layui-input">-->
+<!--                    </td>-->
+<!--                </tr>-->
+                <tr>
+                    <td>回访</td>
+                    <td><textarea class="layui-input" style="height: 100px;" name="question"></textarea></td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <button class="layui-btn" type="submit">确诊</button>
+                    </td>
+                </tr>
+                <tbody>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script src="http://localhost:9000/static/js/jquery-3.3.1.min.js"></script>
+<script src="http://localhost:9000/static/js/layui.all.js"></script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+    function returnEdit(){
+        var d = {};
+        var t = $('#form1').serializeArray();
+        $.each(t, function() {
+            d[this.name] = this.value;
+        });
+        var json=JSON.stringify(d);
+        $.ajax({
+            url:"../returnEdit",
+            type:'post',
+            data:json,
+            contentType: "application/json;charset=utf-8",
+            success:function(data){
+                layer.msg(data.msg, {
+                    time: 2000, //2s后自动关闭
+                },function() {
+                    parent.location.reload();
+                });
+            },
+            error:function (data) {
+                layer.msg(data.msg, {
+                    time: 2000, //2s后自动关闭
+                });
+            }
+        });
+        return false
+    }
+</script>
+</body>
+</html>

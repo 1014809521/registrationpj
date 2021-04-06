@@ -11,4 +11,5 @@ public class PatientQueryResult {
     private Integer patientId;
     private Integer userId;
     private Integer doctorId;
+    private Integer registrationId;
 }

@@ -13,4 +13,6 @@ public interface SeekService {
     //保存记录
     ResponseResult save(Map map);
     PageQuery<Seek> findSeekList(long pageNum, long pageSize,Integer patientId);
+    PageQuery<Seek> findSeekList1(long pageNum, long pageSize,Integer registrationId);
+
 }

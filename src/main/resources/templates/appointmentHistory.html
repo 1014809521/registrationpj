@@ -34,9 +34,8 @@
     </head>
     <ul class="layui-nav layui-bg-blue" style="padding-left: 125px;">
         <li class="layui-nav-item layui-this"><a href="/patient/index">首页</a></li>
-        <li class="layui-nav-item"><a href="/patient/search">查询</a></li>
         <li class="layui-nav-item"><a href="/patient/consultation">询问记录</a></li>
-        <li class="layui-nav-item" lay-unselect="">
+        <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
             <a href="javascript:;"th:text= "${session.authority.username}"></a>
             <dl class="layui-nav-child">
                 <dd><a href="/home/logout">退出登录</a></dd>
@@ -72,6 +71,7 @@
                             <th>预约时间</th>
                             <th>费用</th>
                             <th>状态</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +85,9 @@
                             <p th:case="1">预约中</p>
                             <p th:case="2">就诊中</p>
                             <p th:case="3">预约结束</p>
+                        </td>
+                        <td colspan="2">
+                            <button style="width: 90px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:return2('+${u.id}+')'">回访记录</button>
                         </td>
                     </tr>
                     </tbody>
@@ -129,6 +132,20 @@
                     // closeBtn: 0,
                     area: ['800px', '600px'],
                     content: ['consult/?id=' + id,'yes'],
+                    // btn: ['取消'],
+                    yes: function (index) {
+                        //事件
+                        layer.close(index);
+                    }
+                });
+            }
+            function return2(id) {
+                layer.open({
+                    type: 2,
+                    title: '回访',
+                    // closeBtn: 0,
+                    area: ['800px', '600px'],
+                    content: ['returnList/?id=' + id,'yes'],
                     // btn: ['取消'],
                     yes: function (index) {
                         //事件
