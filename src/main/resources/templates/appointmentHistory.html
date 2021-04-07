@@ -88,6 +88,7 @@
                         </td>
                         <td colspan="2">
                             <button style="width: 90px;" class="layui-btn layui-btn-danger" th:onclick="'javascript:return2('+${u.id}+')'">回访记录</button>
+                            <button style="width: 90px;" class="layui-btn layui-btn-normal" th:onclick="'javascript:check('+${u.patientId}+')'">查看病史</button>
                         </td>
                     </tr>
                     </tbody>
@@ -153,6 +154,21 @@
                     }
                 });
             }
+            function check(id) {
+                layer.open({
+                    type: 2,
+                    title: '查看病史',
+                    closeBtn: 0,
+                    area: ['800px', '600px'],
+                    content: ['../doctor/medicalHistory/?id=' + id, 'yes'],
+                    btn: ['取消'],
+                    yes: function (index) {
+                        //事件
+                        layer.close(index);
+                    }
+                });
+            }
+
         </script>
     </body>
 

@@ -31,9 +31,11 @@ public class PatientController {
     private SQLManager sqlManager;
     @RequestMapping("/patientManage")
     public String patientManage(PatientQueryResult patientQueryResult,
+                                @RequestParam(required = false)String name,
                                Model model){
         //查询患者数据
 
+        patientQueryResult.setPatientName(name);
         PageQuery<Patient> page = patientService.findPatientList(patientQueryResult);
 
             model.addAttribute("page",page);

@@ -46,6 +46,6 @@ selectList
         @if(!isEmpty(name)){
              and p.name like #name#
         @}
-        @if(!isEmpty(name)){
+        @if(!isEmpty(doctorId)){
                      and a.doctor_id=#doctorId#
                 @}

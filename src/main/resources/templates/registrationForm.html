@@ -69,31 +69,4 @@
     </div>
 </div>
 </body>
-<script>
-    var PageNum = [[${pageNum}]];
-    var count1 = [[${page.totalRow}]];
-    layui.use('laypage', function(){
-
-        let layPage = layui.laypage;
-
-
-        //执行一个laypage实例
-        layPage.render({
-            elem: 'pagination' //注意，这里的 test1 是 ID，不用加 # 号
-            // 数据总数，从服务端得到
-            ,count:count1
-            ,limit:5
-            ,curr:PageNum
-            ,jump: function(obj, first){
-                //obj包含了当前分页的所有参数，比如：
-                //首次不执行
-                if(!first){
-                    window.location.href = "/admin/patientManage?pageNum="+obj.curr+"&pageSize=" +obj.limit;
-                }
-            }
-
-            //设置每页显示记录数
-        });
-    });
-</script>
 </html>
