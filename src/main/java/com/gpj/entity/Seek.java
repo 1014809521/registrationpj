@@ -19,6 +19,7 @@ public class Seek   {
 	public static final String ALIAS_describes = "describes";
 	public static final String ALIAS_illness = "illness";
 	public static final String ALIAS_price = "price";
+	public static final String ALIAS_drug = "drug";
 	
 	private Integer id ;
 	private Integer patientId ;
@@ -27,6 +28,7 @@ public class Seek   {
 	private String illness ;
 	private BigDecimal price ;
 	private Integer registrationId;
+	private String drug ;
 	
 	public Seek() {
 	}
@@ -72,6 +74,12 @@ public class Seek   {
 	public void setPrice(BigDecimal price ){
 		this.price = price;
 	}
-	
+
+	public String getDrug(){
+		return  drug;
+	}
+	public void setDrug(String drug ){
+		this.drug = drug;
+	}
 
 }

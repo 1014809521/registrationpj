@@ -6,12 +6,12 @@ sample
 
 cols
 ===
-	id,describes,days,price,patient_id,illness
+	id,describes,days,price,patient_id,illness,drug
 
 updateSample
 ===
 
-	id=#id#,describes=#describes#,days=#days#,price=#price#,patient_id=#patientId#,illness=#illness#
+	id=#id#,describes=#describes#,days=#days#,price=#price#,patient_id=#patientId#,illness=#illness#,drug=#drug#
 
 condition
 ===
@@ -34,6 +34,9 @@ condition
     @if(!isEmpty(illness)){
      and illness=#illness#
     @}
+    @if(!isEmpty(drug)){
+         and drug=#drug#
+        @}
     
     
 selectList

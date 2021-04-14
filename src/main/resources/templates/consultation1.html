@@ -7,6 +7,18 @@
         <title>咨询记录</title>
         <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
     </head>
+    <ul class="layui-nav layui-bg-green" style="padding-left: 100px;">
+        <li class="layui-nav-item " style="margin-left: 100px;"><a href="/doctor/index">首页</a></li>
+        <li class="layui-nav-item layui-this" ><a href="/doctor/consult">患者咨询</a></li>
+        <!--    <li class="layui-nav-item " ><a href="/doctor/returnList">回访记录</a></li>-->
+
+        <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
+            <a href="javascript:;"><span style="font-weight: bold;"th:text="${session.authority.username}"></span>&nbsp;医生</a>
+            <dl class="layui-nav-child">
+                <dd><a href="/home/logout">退出登录</a></dd>
+            </dl>
+        </li>
+    </ul>
     <body class="layui-layout-body">
         <div class="layui-layout layui-layout-admin">
             <!-- 内容主体区域 -->

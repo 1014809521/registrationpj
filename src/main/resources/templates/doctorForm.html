@@ -94,6 +94,7 @@
                 $("#department").empty();
                 data.forEach(function (item) {
                     var name = item.name;
+                    console.log(name);
                     $("#department").append("<option th:value=" +name + ">" + name +"</option>");
                     // $("#expense").append(price);
 

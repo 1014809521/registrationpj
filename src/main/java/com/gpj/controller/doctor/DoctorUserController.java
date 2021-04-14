@@ -48,6 +48,8 @@ public class DoctorUserController {
     @Autowired
     private ReturnService returnService;
     @Autowired
+    private DepartmentDao departmentDao;
+    @Autowired
     private DoctorDao doctorDao;
     @Autowired
     private SQLManager sqlManager;
@@ -61,6 +63,10 @@ public class DoctorUserController {
         model.addAttribute("page",page);
         model.addAttribute("pageNum",patientQueryResult.getPageNum());
         return "doctorIndex";
+    }
+    @RequestMapping("/information")
+    public String information(){
+        return "doctorInformation";
     }
     @RequestMapping("/consult")
     public String consult(
@@ -168,6 +174,11 @@ public class DoctorUserController {
         model.addAttribute("page",page);
         model.addAttribute("pageNum",patientQueryResult.getPageNum());
         return "doctorReturn";
+    }
+    @ResponseBody
+    @RequestMapping(value = "/getDepartmentList")
+    public List<Department> getList(){
+        return departmentDao.all();
     }
 
     //根据部门查询医生

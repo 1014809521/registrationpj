@@ -7,9 +7,11 @@
         <title>咨询记录</title>
         <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
     </head>
-    <ul class="layui-nav layui-bg-blue" style="padding-left: 125px;">
+    <ul class="layui-nav layui-bg-red" style="padding-left: 125px;">
         <li class="layui-nav-item "><a href="/patient/index">首页</a></li>
+        <li class="layui-nav-item"><a href="/doctor/information">医生资料</a></li>
         <li class="layui-nav-item layui-this"><a href="/patient/consultation">询问记录</a></li>
+        <li class="layui-nav-item"><a href="/patient/departmentInfo">科室资料</a></li>
         <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
             <a href="javascript:;"th:text= "${session.authority.username}"></a>
             <dl class="layui-nav-child">

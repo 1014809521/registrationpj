@@ -25,12 +25,14 @@
                                 <th>序号</th>
                                 <th>既往病史</th>
                                 <th>描述</th>
+                                <th>建议治疗方法</th>
                             </tr>
                             </thead>
                             <tr th:each="u : ${page.getList()}">
                                 <td th:text="${u.id}"></td>
                                 <td th:text="${u.illness}"></td>
                                 <td th:text="${u.describes}"></td>
+                                <td th:text="${u.drug}"></td>
                             </tr>
                         </table>
                     </table>

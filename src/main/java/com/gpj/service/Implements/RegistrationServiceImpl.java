@@ -36,7 +36,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 //        queryOfFindPage.setPageSize(pageSize);//设置查询数量
 //        patientDao.templatePage(queryOfFindPage);//进行分页查询，调用dao对象继承BaseMapp父类的方法'templatePage()'，传入参数为此前创建的PageQuery对象名。
 //        List<Patient> list = queryOfFindPage.getList();
-//        query.setOrderBy("a.id desc");
+        query.setOrderBy("a.id desc");
         registrationDao.selectList(query);
         return query;
     }

@@ -3,6 +3,7 @@ package com.gpj.controller.department;
 import com.gpj.dao.DepartmentDao;
 import com.gpj.entity.Department;
 import com.gpj.entity.Doctor;
+import com.gpj.entity.Patient;
 import com.gpj.result.ResponseResult;
 import com.gpj.service.DepartmentService;
 import org.beetl.sql.core.SQLManager;
@@ -78,6 +79,16 @@ public class DepartmentController {
     @RequestMapping(value = "/getDepartmentList")
     public List<Department> getList(){
         return departmentDao.all();
+    }
+    @RequestMapping("/departmentInfo")
+    public String information(){
+        return "departmentInformation";
+    }
+    @ResponseBody
+    @RequestMapping("/findDepartmentByName")
+    public Department getList1(@RequestParam("name")String name){
+        System.out.println(departmentService.findDepartmentList(1,5,name).getList().get(0).getType());
+        return(departmentService.findDepartmentList(1,5,name).getList().get(0));
     }
 
 }

@@ -1,0 +1,112 @@
+<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>科室页面</title>
+    <link rel="stylesheet" href="../static/css/layui.min.css">
+</head>
+<ul class="layui-nav layui-bg-red" style="padding-left: 125px;">
+    <li class="layui-nav-item "><a href="/patient/index">首页</a></li>
+    <li class="layui-nav-item"><a href="/patient/information">医生资料</a></li>
+    <li class="layui-nav-item "><a href="/patient/consultation">询问记录</a></li>
+    <li class="layui-nav-item layui-this"><a href="/patient/departmentInfo">科室资料</a></li>
+    <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
+        <a href="javascript:;"th:text= "${session.authority.username}"></a>
+        <dl class="layui-nav-child">
+            <dd><a href="/home/logout">退出登录</a></dd>
+        </dl>
+    </li>
+</ul>
+<body class="layui-layout-body" bgcolor="#f0ffff" >
+<div class="layui-layout layui-layout-admin" >
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px; color: #00F7DE" >
+            <form class="layui-form"  style="color: #00FF00">
+                <table class="layui-table" >
+                    <colgroup>
+                        <col width="150" >
+                        <col width="200" >
+                        <col width="200" >
+                        <col width="200">
+                        <col width="200">
+                        <col>
+                    </colgroup>
+                    <tr>
+                    <td>科室：</td>
+
+                    <td>
+                        <div class="layui-form">
+                            <div class="layui-form-item">
+                                <select name="department" id="department" class="layui-select" lay-filter="department">
+
+                                </select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                        <td>科室信息：</td>
+                        <td colspan="3">
+                            <input type="text" name="text" id="text" required  lay-verify="required" readonly = "readonly"   autocomplete="off" class="layui-input">
+                        </td>
+                    </tr>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </form>
+        </div>
+</div>
+<script src="../static/js/layui.all.js"></script>
+<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+<script type="text/javascript">
+    var map={}
+    layui.use(['layer', 'form'], function () {
+        var layer = layui.layer
+            , form = layui.form;
+
+        $.ajax({
+            type: 'GET',
+            url: 'getDepartmentList',
+            dataType: 'json',
+            success: function (data) {
+                $("#department").empty();
+                for (var i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var text = data[i].type;
+                    // eval("map."+String(name)+"="+String(text))
+                    console.log(text);
+                    console.log(name);
+                    $("#department").append("<option th:value=" + name + ">" + name + "</option>");
+                    // $("#expense").append(price);
+                    // $("#text").val(text);
+                }
+
+                form.render('select');
+            }
+        }).then(() => {
+            console.log("call then")
+            form.on('select(department)', function (data) {
+                console.log("call select")
+                console.log(data);
+                // console.log(map.data);
+                // eval("console.log(map."+String(data)+")")
+                var department = (data.value);
+                $.ajax({
+                    type: 'GET',
+                    url: 'findDepartmentByName?name=' + department,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data)
+                        // $("#expense").append(price);
+                        $("#text").val(data.type);
+                    }
+                })
+            })
+        });
+    });
+
+</script>
+</body>
+</html>

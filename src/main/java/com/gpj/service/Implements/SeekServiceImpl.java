@@ -24,6 +24,7 @@ public class SeekServiceImpl implements SeekService {
         seek.setDays(String.valueOf(map.get("days")));
         seek.setDescribes(String.valueOf(map.get("describes")));
         seek.setIllness(String.valueOf(map.get("illness")));
+        seek.setDrug(String.valueOf(map.get("drug")));
         seekDao.insert(seek);
         ResponseResult result = new ResponseResult();
         result.setCode("100");
