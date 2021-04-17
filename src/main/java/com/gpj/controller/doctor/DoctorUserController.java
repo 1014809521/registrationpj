@@ -192,6 +192,18 @@ public List<Doctor> getList(@RequestParam String department){
 //    public List<Doctor> getList1(@RequestParam String doctor){
 //        return doctorService.getListByDepartment(department);
 //    }
+@RequestMapping("/infoModify")
+public String test(Model model,HttpSession session){
+    Authority authority = (Authority) session.getAttribute("authority");
+    Doctor doctor = doctorService.findByUserId(authority.getId());
+    model.addAttribute("doctor",doctor);
+    return "doctorForm2";
+}
+    @RequestMapping("/doctorEdit")
+    public String edit(Doctor doctor){
+        doctorService.editDoctor(doctor);
+        return "redirect:index";
+    }
 
 
 }

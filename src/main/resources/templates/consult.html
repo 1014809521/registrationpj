@@ -7,6 +7,18 @@
     <title>新增页面</title>
     <link rel="stylesheet" href="http://localhost:9000/static/css/layui.min.css">
 </head>
+<ul class="layui-nav layui-bg-red" style="padding-left: 125px;">
+    <li class="layui-nav-item"><a href="/patient/index">首页</a></li>
+    <li class="layui-nav-item"><a href="/patient/information">医生资料</a></li>
+    <li class="layui-nav-item"><a href="/patient/consultation">询问记录</a></li>
+    <li class="layui-nav-item"><a href="/patient/departmentInfo">科室资料</a></li>
+    <li class="layui-nav-item" lay-unselect="" style="float: right;margin-right: 200px;">
+        <a href="javascript:;"th:text= "${session.authority.username}"></a>
+        <dl class="layui-nav-child">
+            <dd><a href="/home/logout">退出登录</a></dd>
+        </dl>
+    </li>
+</ul>
 <body class="layui-layout-body" bgcolor="#f0ffff">
 <div class="layui-layout layui-layout-admin">
     <!-- 内容主体区域 -->
@@ -29,18 +41,13 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>预约科室：</td>
-                    <td colspan="2">
+                    <td>科室：</td>
+
+                    <td>
                         <div class="layui-form">
                             <div class="layui-form-item">
-                                <select id="department" lay-filter="department" >
-                                    <option value="">请选择科室</option>
-                                    <option value="精神科" >精神科</option>
-                                    <option value="妇产科" >妇产科</option>
-                                    <option value="口腔科" >口腔科</option>
-                                    <option value="骨科" >骨科</option>
-                                    <option value="外科" >外科</option>
-                                    <option value="内科" >内科</option>
+                                <select name="department" id="department" class="layui-select" lay-filter="department">
+
                                 </select>
                             </div>
                         </div>
@@ -115,24 +122,51 @@
     layui.use(['layer', 'form'], function () {
         var layer = layui.layer
             , form = layui.form;
-        form.on('select(department)', function (data) {
-            var department = (data.value);
-            $.ajax({
-                type: 'GET',
-                url: 'http://localhost:9000/doctor/getList/?department=' + department,
-                dataType: 'json',
-                success: function (data) {
-                    $("#doctorId").empty();
-                    data.forEach(function (item) {
-                        var name = item.name;
-                        console.log(name);
-                        var id = item.id;
-                        console.log(id);
-                        $("#doctorId").append("<option value=" + id + ">" + name +"</option>");
-                    });
-                    form.render('select');
+
+        $.ajax({
+            type: 'GET',
+            url: 'getDepartmentList',
+            dataType: 'json',
+            success: function (data) {
+                $("#department").empty();
+                for (var i = 0; i < data.length; i++) {
+                    var name = data[i].name;
+                    var text = data[i].type;
+                    // eval("map."+String(name)+"="+String(text))
+                    console.log(text);
+                    console.log(name);
+                    $("#department").append("<option th:value=" + name + ">" + name + "</option>");
+                    // $("#expense").append(price);
+                    // $("#text").val(text);
                 }
-            });
+
+                form.render('select');
+            }
+        }).then(() => {
+            console.log("call then")
+            form.on('select(department)', function (data) {
+                var department = (data.value);
+                $.ajax({
+                    type: 'GET',
+                    url: '../patient/getList/?department=' + department,
+                    dataType: 'json',
+                    success: function (data) {
+                        $("#doctorId").empty();
+                        data.forEach(function (item) {
+                            var name = item.name;
+                            console.log(name);
+                            var id = item.id;
+                            var price = item.price;
+                            console.log(price);
+                            console.log(id);
+                            $("#doctorId").append("<option value=" + id + ">" + name +"</option>");
+                            // $("#expense").append(price);
+                            $("#expense").val(String(price));
+                        });
+                        form.render('select');
+                    }
+                });
+            })
         });
     });
 

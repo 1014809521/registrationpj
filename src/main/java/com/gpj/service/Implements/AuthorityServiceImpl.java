@@ -77,6 +77,10 @@ public class AuthorityServiceImpl implements AuthorityService {
             authority1.setPassword(activeResult.getPassword());
             authorityDao.insert(authority1);
             patient.setUserId(authorityDao.findUserByName(activeResult.getUsername()).getId());
+            patient.setAge(activeResult.getAge());
+            System.out.println(activeResult.getSex());
+            patient.setSex(activeResult.getSex().equals("男")?1:2);
+            patient.setName(activeResult.getName());
             patientDao.insert(patient);
             result.setCode("200");
             result.setMsg("注册成功");

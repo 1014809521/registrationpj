@@ -186,7 +186,17 @@ public class PatientUserController {
         result.setMsg("成功");
         result.setCode("100");
         return result.getMsg();
-
-
+    }
+    @RequestMapping("/infoModify")
+    public String test(Model model,HttpSession session){
+        Authority authority = (Authority) session.getAttribute("authority");
+        Patient patient = patientService.findByUserId(authority.getId());
+        model.addAttribute("patient",patient);
+        return "patientForm2";
+    }
+    @RequestMapping("/patientEdit")
+    public String edit(Patient patient){
+        patientService.editPatient(patient);
+        return "redirect:index";
     }
 }
